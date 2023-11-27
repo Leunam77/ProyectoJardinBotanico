@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "306931792924",
+    "project_id": "jardinbotanicobd",
+    "storage_bucket": "jardinbotanicobd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306931792924:android:a7165ffe397230ae4bb3d9",
+        "android_client_info": {
+          "package_name": "com.example.jardin_botanico"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoeRNXgeFrEhTZrcJxCaTaVq5Xf480HOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
