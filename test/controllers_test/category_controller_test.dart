@@ -5,9 +5,9 @@ void main() {
   group('Existencia de atributos', () {
     test('Obtener categoria', () {
       String idTest = "0";
-      expect(CategoryController().getCategory(idTest), "Arbusto");
+      expect(CategoryController().getCategory(idTest), equals("Arbusto"));
     });
-    test('verificarOrden', () {
+    test('buscar Categoria', () {
       expect(CategoryController().searchCategory("arbusto"), equals("arbusto"));
     });
   });

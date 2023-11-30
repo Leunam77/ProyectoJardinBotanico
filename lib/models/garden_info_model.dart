@@ -1,9 +1,11 @@
 class GardenInfo {
-  String name;
-  String phoneNumber;
-  String address;
-  String briefHistory;
-  List<String> socialMediaLinks;
+  late int id;
+  late String name;
+  late String phoneNumber;
+  late String address;
+  late String briefHistory;
+  late List<String> socialMediaLinks;
+  
 
   GardenInfo({
     required this.id,
