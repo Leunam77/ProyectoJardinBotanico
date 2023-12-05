@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'models/services/firebase_options.dart';
+import 'package:jardin_botanico/models/services/firebase_service.dart';
 
-void main(){
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseService();
   runApp(const MyApp());
 }
 
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Tu puedes hacer click las veces que quieras:',
+              'clicked hello world:',
             ),
             Text(
               '$_counter',
