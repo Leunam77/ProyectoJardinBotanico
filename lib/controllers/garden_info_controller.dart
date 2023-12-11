@@ -20,11 +20,12 @@ class GardenInfoController {
         .update(gardenInfo.toJson());
   }
 
-  Future<void> addGardenInfo(GardenInfo gardenInfo) async {
-    DocumentReference docRef =
-        await firestore.collection('garden_info').add(gardenInfo.toJson());
-    await docRef.update({'id': docRef.id});
-  }
+  // Future<void> addGardenInfo(GardenInfo gardenInfo) async {
+  //   DocumentReference docRef =
+  //       await firestore.collection('garden_info').add(gardenInfo.toJson());
+  //   await docRef.update({'id': docRef.id});
+  //   return docRef.id;
+  // }
 
   Future<void> setGardenInfo(GardenInfo gardenInfo) async {
     await firestore

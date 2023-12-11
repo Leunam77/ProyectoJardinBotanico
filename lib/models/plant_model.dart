@@ -4,6 +4,8 @@ class PlantModel {
   String nombreCientifico;
   String descripcion;
   String usosMedicinales;
+  String? imageUrl;
+  String? qrCodeUrl;
 
   PlantModel({
     required this.id,
@@ -11,6 +13,8 @@ class PlantModel {
     required this.nombreCientifico,
     required this.descripcion,
     required this.usosMedicinales,
+    this.imageUrl,
+    this.qrCodeUrl,
   });
 
   PlantModel.fromMap(Map snapshot)
@@ -18,7 +22,9 @@ class PlantModel {
         nombreColoquial = snapshot['nombreColoquial'] ?? '',
         nombreCientifico = snapshot['nombreCientifico'] ?? '',
         descripcion = snapshot['descripcion'] ?? '',
-        usosMedicinales = snapshot['usosMedicinales'] ?? '';
+        usosMedicinales = snapshot['usosMedicinales'] ?? '',
+        imageUrl = snapshot['imageUrl'],
+        qrCodeUrl = snapshot['qrCodeUrl'];
 
   toJson() {
     return {
@@ -27,6 +33,8 @@ class PlantModel {
       "nombreCientifico": nombreCientifico,
       "descripcion": descripcion,
       "usosMedicinales": usosMedicinales,
+      "imageUrl": imageUrl,
+      "qrCodeUrl": qrCodeUrl,
     };
   }
 }

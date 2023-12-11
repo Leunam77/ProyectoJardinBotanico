@@ -59,5 +59,21 @@ void main() {
           GardenInfo.fromMap(snapshot.data() as Map<String, dynamic>);
       expect(result, updatedGardenInfo);
     });
+    test('setGardenInfo', () async {
+      final gardenInfo = GardenInfo(
+          id: 'info',
+          numero: '1234567890',
+          direccionMaps: 'Test Address',
+          linkFacebook: 'Test Facebook',
+          linkInstagram: 'Test Instagram',
+          linkTikTok: 'Test TikTok',
+          descripcion: 'Test Description');
+
+      await controller.setGardenInfo(gardenInfo);
+
+      final result =
+          await firestore.collection('garden_info').doc('info').get();
+      expect(result.data(), gardenInfo.toJson());
+    });
   });
 }
