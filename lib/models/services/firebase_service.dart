@@ -13,13 +13,15 @@ class FirebaseService {
     return _instance;
   }
   FirebaseService._() {
-    _initFirebase();
+    initFirebase();
   }
 
-  Future<void> _initFirebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  Future<void> initFirebase() async {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
     _firestore = FirebaseFirestore.instance;
     _storage = FirebaseStorage.instance;
   }
@@ -31,8 +33,5 @@ class FirebaseService {
   static set storage(FirebaseStorage instance) {
     _storage = instance;
   }
-  FirebaseStorage getStorage() {
-    return storage;
-  }
-  
+
 }

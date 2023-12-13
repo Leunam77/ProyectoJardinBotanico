@@ -7,10 +7,15 @@ class GardenInfoController {
   GardenInfoController({FirebaseFirestore? firestore})
       : firestore = firestore ?? FirebaseService.firestore;
 
-  Future<GardenInfo> getGardenInfo() async {
+    Future<GardenInfo?> getGardenInfo() async {
     DocumentSnapshot snapshot =
-        await firestore.collection('garden_info').doc('info').get();
-    return GardenInfo.fromMap(snapshot.data() as Map<String, dynamic>);
+        await firestore.collection('GardenInfo').doc('DQ2iWNuSpjWdaQvJN0MW').get();
+    if (snapshot.exists) {
+      return GardenInfo.fromMap(
+          snapshot.id, snapshot.data() as Map<String, dynamic>);
+    } else {
+      return null;
+    }
   }
 
   Future<void> updateGardenInfo(GardenInfo gardenInfo) {

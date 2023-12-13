@@ -17,9 +17,8 @@ class GardenInfo {
     required this.descripcion,
   });
 
-  GardenInfo.fromMap(Map<String, dynamic> snapshot)
-      : id = snapshot['id'] ?? '',
-        numero = snapshot['numero'] ?? '',
+  GardenInfo.fromMap(this.id,Map<String, dynamic> snapshot)
+      : numero = snapshot['numero'] ?? '',
         direccionMaps = snapshot['direccionMaps'] ?? '',
         linkFacebook = snapshot['linkFacebook'] ?? '',
         linkInstagram = snapshot['linkInstagram'] ?? '',
