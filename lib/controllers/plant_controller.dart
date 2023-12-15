@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:jardin_botanico/models/plant_model.dart';
 import 'package:jardin_botanico/models/services/firebase_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:path/path.dart' as Path;
 
 
 class PlantController {
@@ -17,16 +18,24 @@ class PlantController {
         storage = storage ?? FirebaseService.storage;
 
   Future<void> createPlant(PlantModel plant, File imageFile) async {
-    String imageUrl = await uploadImage(imageFile, 'plants/${plant.id}');
-    plant.imageUrl = imageUrl;
-    String qrCodeUrl = await generateQR(plant.id);
-    plant.qrCodeUrl = qrCodeUrl;
-    await firestore.collection('plants').doc(plant.id).set(plant.toJson());
+    DocumentReference docRef = await firestore.collection('plants').add({});    
+    String imageUrl = await uploadImage(imageFile);
+    String qrCodeUrl = await generateQR(docRef.id);
+    PlantModel newPlant = PlantModel(
+      id: docRef.id, // Usa el ID generado automáticamente
+      nombreColoquial: plant.nombreColoquial,
+      nombreCientifico: plant.nombreCientifico,
+      descripcion: plant.descripcion,
+      usosMedicinales: plant.usosMedicinales,
+      imageUrl: imageUrl,
+      qrCodeUrl: qrCodeUrl,
+    );
+    await docRef.set(newPlant.toJson());
   }
 
   Future<PlantModel> getPlant(String id) async {
     final doc = await firestore.collection('plants').doc(id).get();
-    return PlantModel.fromMap(doc.data() as Map<String, dynamic>);
+    return PlantModel.fromMap(id, doc.data() as Map<String, dynamic>);
   }
 
   Future<void> updatePlant(PlantModel plant) async {
@@ -37,9 +46,10 @@ class PlantController {
     await firestore.collection('plants').doc(id).delete();
   }
 
-  Future<String> uploadImage(File imageFile, String path) async {
+  Future<String> uploadImage(File imageFile) async {
     FirebaseStorage storage = FirebaseService.storage;
-    Reference ref = storage.ref().child(path);
+    String fileName = Path.basename(imageFile.path); 
+    Reference ref = storage.ref().child('plants/$fileName');
     UploadTask uploadTask = ref.putFile(imageFile);
 
     await uploadTask.whenComplete(() => null);

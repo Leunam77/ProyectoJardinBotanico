@@ -6,6 +6,7 @@ class GardenInfo {
   final String linkInstagram;
   final String linkTikTok;
   final String descripcion;
+  final String? imageURLInfo;
 
   GardenInfo({
     required this.id,
@@ -15,6 +16,7 @@ class GardenInfo {
     required this.linkInstagram,
     required this.linkTikTok,
     required this.descripcion,
+    this.imageURLInfo,
   });
 
   GardenInfo.fromMap(this.id,Map<String, dynamic> snapshot)
@@ -23,7 +25,8 @@ class GardenInfo {
         linkFacebook = snapshot['linkFacebook'] ?? '',
         linkInstagram = snapshot['linkInstagram'] ?? '',
         linkTikTok = snapshot['linkTikTok'] ?? '',
-        descripcion = snapshot['descripcion'] ?? '';
+        descripcion = snapshot['descripcion'] ?? '',
+        imageURLInfo = snapshot['imageURLInfo'];
 
   toJson() {
     return {
@@ -34,6 +37,7 @@ class GardenInfo {
       "linkInstagram": linkInstagram,
       "linkTikTok": linkTikTok,
       "descripcion": descripcion,
+      "ImageURLInfo": imageURLInfo,
     };
   }
 
@@ -48,7 +52,8 @@ class GardenInfo {
         other.linkFacebook == linkFacebook &&
         other.linkInstagram == linkInstagram &&
         other.linkTikTok == linkTikTok &&
-        other.descripcion == descripcion;
+        other.descripcion == descripcion&&
+        other.imageURLInfo == imageURLInfo; 
   }
 
   @override
@@ -59,5 +64,6 @@ class GardenInfo {
       linkFacebook.hashCode ^
       linkInstagram.hashCode ^
       linkTikTok.hashCode ^
-      descripcion.hashCode;
+      descripcion.hashCode^
+      imageURLInfo.hashCode;
 }

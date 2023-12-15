@@ -1,14 +1,14 @@
 class PlantModel {
-  String id;
-  String nombreColoquial;
-  String nombreCientifico;
-  String descripcion;
-  String usosMedicinales;
-  String? imageUrl;
-  String? qrCodeUrl;
+  final String? id; 
+  final String nombreColoquial;
+  final String nombreCientifico;
+  final String descripcion;
+  final String usosMedicinales;
+  final String? imageUrl;
+  final String? qrCodeUrl;
 
   PlantModel({
-    required this.id,
+    this.id,
     required this.nombreColoquial,
     required this.nombreCientifico,
     required this.descripcion,
@@ -17,9 +17,8 @@ class PlantModel {
     this.qrCodeUrl,
   });
 
-  PlantModel.fromMap(Map snapshot)
-      : id = snapshot['id'] ?? '',
-        nombreColoquial = snapshot['nombreColoquial'] ?? '',
+  PlantModel.fromMap(this.id, Map<String, dynamic> snapshot)
+      : nombreColoquial = snapshot['nombreColoquial'] ?? '',
         nombreCientifico = snapshot['nombreCientifico'] ?? '',
         descripcion = snapshot['descripcion'] ?? '',
         usosMedicinales = snapshot['usosMedicinales'] ?? '',
@@ -37,4 +36,28 @@ class PlantModel {
       "qrCodeUrl": qrCodeUrl,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PlantModel &&
+        other.id == id &&
+        other.nombreColoquial == nombreColoquial &&
+        other.nombreCientifico == nombreCientifico &&
+        other.descripcion == descripcion &&
+        other.usosMedicinales == usosMedicinales &&
+        other.imageUrl == imageUrl &&
+        other.qrCodeUrl == qrCodeUrl;
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      nombreColoquial.hashCode ^
+      nombreCientifico.hashCode ^
+      descripcion.hashCode ^
+      usosMedicinales.hashCode ^
+      (imageUrl?.hashCode ?? 0) ^
+      (qrCodeUrl?.hashCode ?? 0);
 }

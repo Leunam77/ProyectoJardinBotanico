@@ -26,6 +26,7 @@ class InformationScreen extends StatelessWidget {
               Text('Instagram: ${gardenInfo.linkInstagram}'),
               Text('TikTok: ${gardenInfo.linkTikTok}'),
               Text('Descripción: ${gardenInfo.descripcion}'),
+              Image(image: NetworkImage(gardenInfo.imageURLInfo ?? '')),
               // Añade aquí más campos según sea necesario
             ],
           );

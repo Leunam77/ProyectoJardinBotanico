@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jardin_botanico/views/screens/camera_screen.dart';
+import 'package:jardin_botanico/views/screens/create_screen.dart';
 import 'package:jardin_botanico/views/screens/information._screen.dart';
 
 class HomeButtonPage extends StatefulWidget {
@@ -16,13 +17,15 @@ class HomeButtonPageState extends State<HomeButtonPage> {
     Text('Home'),
     Text('Camera'),
     Text('Search'),
+    Text('Add'),
     Text('Information'),
   ];
   final positions = [
-    const Offset(15, -12),
-    const Offset(108, -12),
-    const Offset(200, -12),
-    const Offset(290, -12),
+    const Offset(8, -12),
+    const Offset(80, -12),
+    const Offset(150, -12),
+    const Offset(230, -12),
+    const Offset(305, -12),
   ];
 
   @override
@@ -32,13 +35,14 @@ class HomeButtonPageState extends State<HomeButtonPage> {
         title: const Text('Home Button Page'),
       ),
       body: _selectedIndex == 1
-        ? const QRViewExample()
-        : _selectedIndex == 3
+          ? const QRViewExample()
+          : _selectedIndex == 4
               ? InformationScreen()
-              : Center(
+              : _selectedIndex == 3
+                  ? const CreatePlantForm()
+                  :Center(
                   child: _widgetOptions.elementAt(_selectedIndex),
                 ),
-      
       bottomNavigationBar: Stack(
         children: <Widget>[
           BottomNavigationBar(
@@ -54,6 +58,10 @@ class HomeButtonPageState extends State<HomeButtonPage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.search),
                 label: 'Buscar',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_box),
+                label: 'Agregar',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.info),
