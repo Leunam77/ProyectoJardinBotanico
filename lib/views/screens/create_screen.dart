@@ -14,7 +14,7 @@ class CreatePlantForm extends StatefulWidget {
 class CreatePlantFormState extends State<CreatePlantForm> {
   final _formKey = GlobalKey<FormState>();
   final plantController = PlantController();
-  final nombreColoquialController = TextEditingController();
+  final List<TextEditingController> nombreColoquialControllers = [];
   final nombreCientificoController = TextEditingController();
   final descripcionController = TextEditingController();
   final usosMedicinalesController = TextEditingController();
@@ -24,7 +24,7 @@ class CreatePlantFormState extends State<CreatePlantForm> {
   String usosMedicinales = '';
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
-  
+
   Future<void> selectImage() async {
     final XFile? selectedImage = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -38,21 +38,42 @@ class CreatePlantFormState extends State<CreatePlantForm> {
       });
     }
   }
+
   void resetImage() {
     setState(() {
       imageFile = null;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            controller: nombreColoquialController,
-            decoration: const InputDecoration(labelText: 'Nombre Coloquial'),
-            onSaved: (value) => nombreColoquial = value ?? '',
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                nombreColoquialControllers.add(TextEditingController());
+              });
+            },
+            child: const Text('Agregar nombre coloquial'),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: nombreColoquialControllers.length,
+            itemBuilder: (context, index) {
+              return TextFormField(
+                controller: nombreColoquialControllers[index],
+                decoration:
+                    const InputDecoration(labelText: 'Nombre Coloquial'),
+                onSaved: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    nombreColoquialControllers[index].text = value;
+                  }
+                },
+              );
+            },
           ),
           TextFormField(
             controller: nombreCientificoController,
@@ -69,7 +90,7 @@ class CreatePlantFormState extends State<CreatePlantForm> {
             decoration: const InputDecoration(labelText: 'Usos Medicinales'),
             onSaved: (value) => usosMedicinales = value ?? '',
           ),
-           ElevatedButton(
+          ElevatedButton(
             onPressed: selectImage,
             child: const Text('Seleccionar imagen'),
           ),
@@ -78,6 +99,9 @@ class CreatePlantFormState extends State<CreatePlantForm> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                List<String> nombreColoquial = nombreColoquialControllers
+                    .map((controller) => controller.text)
+                    .toList();
                 PlantModel newPlant = PlantModel(
                   nombreColoquial: nombreColoquial,
                   nombreCientifico: nombreCientifico,
@@ -86,13 +110,14 @@ class CreatePlantFormState extends State<CreatePlantForm> {
                 );
                 plantController.createPlant(newPlant, imageFile!);
               }
-              nombreColoquialController.clear();
+              for (var controller in nombreColoquialControllers) {
+                controller.clear();
+              }
               nombreCientificoController.clear();
               descripcionController.clear();
               usosMedicinalesController.clear();
               resetImage();
             },
-
             child: const Text('Crear Planta'),
           ),
         ],

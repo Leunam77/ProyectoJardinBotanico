@@ -76,4 +76,27 @@ class PlantController {
     await uploadTask.whenComplete(() => null);
     return await ref.getDownloadURL();
   }
+  Future<bool> esPlantaValida(String codigo) async {
+    if (codigo.contains('//')) {
+      return false;
+    }
+    final DocumentSnapshot doc =
+        await firestore.collection('plants').doc(codigo).get();
+
+    // Si el documento existe, entonces el código corresponde a una planta
+    return doc.exists;
+  }
+  Future<String> obtenerNombreCientifico(String codigo) async {
+    if (codigo.contains('//')) {
+      throw Exception('El código no puede contener "//"');
+    }
+    final DocumentSnapshot doc =
+        await firestore.collection('plants').doc(codigo).get();
+
+    if (!doc.exists) {
+      throw Exception('No existe una planta con ese código');
+    }
+    return doc.get('nombreCientifico');
+  }
+
 }

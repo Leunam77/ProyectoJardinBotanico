@@ -1,6 +1,6 @@
 class PlantModel {
-  final String? id; 
-  final String nombreColoquial;
+  final String? id;
+  final List<String> nombreColoquial;
   final String nombreCientifico;
   final String descripcion;
   final String usosMedicinales;
@@ -18,24 +18,22 @@ class PlantModel {
   });
 
   PlantModel.fromMap(this.id, Map<String, dynamic> snapshot)
-      : nombreColoquial = snapshot['nombreColoquial'] ?? '',
+      : nombreColoquial = List<String>.from(snapshot['nombreColoquial'] ?? []),
         nombreCientifico = snapshot['nombreCientifico'] ?? '',
         descripcion = snapshot['descripcion'] ?? '',
         usosMedicinales = snapshot['usosMedicinales'] ?? '',
         imageUrl = snapshot['imageUrl'],
         qrCodeUrl = snapshot['qrCodeUrl'];
 
-  toJson() {
-    return {
-      "id": id,
-      "nombreColoquial": nombreColoquial,
-      "nombreCientifico": nombreCientifico,
-      "descripcion": descripcion,
-      "usosMedicinales": usosMedicinales,
-      "imageUrl": imageUrl,
-      "qrCodeUrl": qrCodeUrl,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nombreColoquial': nombreColoquial,
+        'nombreCientifico': nombreCientifico,
+        'descripcion': descripcion,
+        'usosMedicinales': usosMedicinales,
+        'imageUrl': imageUrl,
+        'qrCodeUrl': qrCodeUrl,
+      };
 
   @override
   bool operator ==(Object other) {
