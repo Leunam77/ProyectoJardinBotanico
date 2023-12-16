@@ -4,7 +4,7 @@ import 'package:jardin_botanico/views/screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseService firebaseService = FirebaseService();
+  FirebaseService();
   runApp(const MyApp());
 }
 
