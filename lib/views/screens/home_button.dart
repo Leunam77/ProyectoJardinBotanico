@@ -21,11 +21,11 @@ class HomeButtonPageState extends State<HomeButtonPage> {
     Text('Information'),
   ];
   final positions = [
-    const Offset(8, -12),
-    const Offset(80, -12),
-    const Offset(150, -12),
-    const Offset(230, -12),
-    const Offset(305, -12),
+    const Offset(5, -13),
+    const Offset(75, -13),
+    const Offset(150, -13),
+    const Offset(225, -13),
+    const Offset(295, -13),
   ];
 
   @override
@@ -45,52 +45,55 @@ class HomeButtonPageState extends State<HomeButtonPage> {
                 ),
       bottomNavigationBar: Stack(
         children: <Widget>[
-          BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Inicio',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.camera_alt),
-                label: 'Cámara',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Buscar',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_box),
-                label: 'Agregar',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info),
-                label: 'Información',
-              ),
-            ],
-            backgroundColor:
-                const Color.fromARGB(255, 255, 0, 0), // color de fondo
-            currentIndex: _selectedIndex,
-            onTap: (index) {
-              // switch (index) {
-              //   case 1: // índice del ítem de la cámara
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => const QRViewExample()),
-              //     );
-              //     break;
-              //   // manejar otros índices si es necesario...
-              // }
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
+          Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: const Color.fromARGB(255, 23, 57, 0),
+            ),
+            child: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Inicio',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.camera_alt),
+                  label: 'Cámara',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Buscar',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add_box),
+                  label: 'Agregar',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.info),
+                  label: 'Información',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                // switch (index) {
+                //   case 1: // índice del ítem de la cámara
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => const QRViewExample()),
+                //     );
+                //     break;
+                //   // manejar otros índices si es necesario...
+                // }
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
 
-            unselectedItemColor: const Color.fromARGB(
-                255, 0, 0, 0), // color de los ítems no seleccionados
-            selectedItemColor: const Color.fromARGB(255, 33, 72, 243),
+              unselectedItemColor: const Color.fromARGB(255, 245, 245, 245), // color de los ítems no seleccionados
+              selectedItemColor: const Color.fromARGB(255,182, 227, 0),
+            ),
           ),
+          
           Positioned(
             top: positions[_selectedIndex].dy,
             left: positions[_selectedIndex].dx,
