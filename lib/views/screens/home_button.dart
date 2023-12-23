@@ -31,9 +31,9 @@ class HomeButtonPageState extends State<HomeButtonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Button Page'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home Button Page'),
+      // ),
       body: _selectedIndex == 1
           ? const QRViewExample()
           : _selectedIndex == 4
@@ -68,8 +68,8 @@ class HomeButtonPageState extends State<HomeButtonPage> {
                   label: 'Agregar',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.info),
-                  label: 'Información',
+                  icon: Icon(Icons.person),
+                  label: 'Usuario',
                 ),
               ],
               currentIndex: _selectedIndex,
