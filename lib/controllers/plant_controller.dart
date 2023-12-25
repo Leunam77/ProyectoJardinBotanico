@@ -2,10 +2,11 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:jardin_botanico/models/plant_model.dart';
 import 'package:jardin_botanico/models/services/firebase_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 
 
 class PlantController {
@@ -29,6 +30,7 @@ class PlantController {
       usosMedicinales: plant.usosMedicinales,
       imageUrl: imageUrl,
       qrCodeUrl: qrCodeUrl,
+      categoriesIds: plant.categoriesIds,
     );
     await docRef.set(newPlant.toJson());
   }
@@ -48,7 +50,7 @@ class PlantController {
 
   Future<String> uploadImage(File imageFile) async {
     FirebaseStorage storage = FirebaseService.storage;
-    String fileName = Path.basename(imageFile.path); 
+    String fileName = path.basename(imageFile.path); 
     Reference ref = storage.ref().child('plants/$fileName');
     UploadTask uploadTask = ref.putFile(imageFile);
 
@@ -58,8 +60,18 @@ class PlantController {
 
   Future<String> generateQR(String plantId) async {
     final qrCode = QrPainter(
+      // ignore: deprecated_member_use
       data: plantId,
       version: QrVersions.auto,
+      emptyColor: Colors.white,
+      eyeStyle: const QrEyeStyle(
+        eyeShape: QrEyeShape.square,
+        color: Colors.black,
+      ),
+      dataModuleStyle: const QrDataModuleStyle(
+        dataModuleShape: QrDataModuleShape.square, 
+        color: Colors.black,
+      ), // Color de fondo blanco
     );
 
     final image = await qrCode.toImage(600);
@@ -97,6 +109,19 @@ class PlantController {
       throw Exception('No existe una planta con ese código');
     }
     return doc.get('nombreCientifico');
+  }
+  Stream<List<PlantModel>> getPlants() {
+    return firestore.collection('plants').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return PlantModel.fromMap(doc.id, doc.data());
+      }).toList();
+    });
+  }
+
+Future<String> getQRUrl(String plantId) async {
+    final doc = await firestore.collection('plants').doc(plantId).get();
+    final plant = PlantModel.fromMap(doc.id, doc.data() ?? {});
+    return plant.qrCodeUrl ?? '';
   }
 
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jardin_botanico/views/screens/camera_screen.dart';
-import 'package:jardin_botanico/views/screens/create_screen.dart';
 import 'package:jardin_botanico/views/screens/information._screen.dart';
+import 'package:jardin_botanico/views/screens/search_plants.dart';
 
 class HomeButtonPage extends StatefulWidget {
   const HomeButtonPage({Key? key}) : super(key: key);
@@ -17,32 +17,27 @@ class HomeButtonPageState extends State<HomeButtonPage> {
     Text('Home'),
     Text('Camera'),
     Text('Search'),
-    Text('Add'),
     Text('Information'),
   ];
   final positions = [
-    const Offset(5, -13),
-    const Offset(75, -13),
-    const Offset(150, -13),
-    const Offset(225, -13),
-    const Offset(295, -13),
+    const Offset(15, -13),
+    const Offset(107, -13),
+    const Offset(195, -13),
+    const Offset(285, -13),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home Button Page'),
-      // ),
       body: _selectedIndex == 1
           ? const QRViewExample()
-          : _selectedIndex == 4
+          : _selectedIndex == 3
               ? InformationScreen()
-              : _selectedIndex == 3
-                  ? const CreatePlantForm()
-                  :Center(
-                  child: _widgetOptions.elementAt(_selectedIndex),
-                ),
+              : _selectedIndex == 2
+                ? const SearchPlantsPage()
+                : Center(
+                    child: _widgetOptions.elementAt(_selectedIndex),
+                  ),
       bottomNavigationBar: Stack(
         children: <Widget>[
           Theme(
@@ -64,12 +59,8 @@ class HomeButtonPageState extends State<HomeButtonPage> {
                   label: 'Buscar',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.add_box),
-                  label: 'Agregar',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Usuario',
+                  icon: Icon(Icons.info_outline_rounded),
+                  label: 'Información',
                 ),
               ],
               currentIndex: _selectedIndex,
@@ -89,11 +80,11 @@ class HomeButtonPageState extends State<HomeButtonPage> {
                 });
               },
 
-              unselectedItemColor: const Color.fromARGB(255, 245, 245, 245), // color de los ítems no seleccionados
-              selectedItemColor: const Color.fromARGB(255,182, 227, 0),
+              unselectedItemColor: const Color.fromARGB(
+                  255, 245, 245, 245), // color de los ítems no seleccionados
+              selectedItemColor: const Color.fromARGB(255, 182, 227, 0),
             ),
           ),
-          
           Positioned(
             top: positions[_selectedIndex].dy,
             left: positions[_selectedIndex].dx,

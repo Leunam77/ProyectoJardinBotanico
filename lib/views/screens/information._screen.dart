@@ -11,25 +11,33 @@ class InformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Información'),
-        centerTitle: true,
-        actions: <Widget>[
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const HamburgerMenu();
-                  },
-                );
-              },
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50.0),
+        child: AppBar(
+          title: const Text(
+            'Información',
+            style: TextStyle(fontSize: 19.0,
+            fontWeight: FontWeight.bold
             ),
           ),
-        ],
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          actions: <Widget>[
+            Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const HamburgerMenu();
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder<GardenInfo?>(
         future: controller.getGardenInfo(),

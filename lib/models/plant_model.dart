@@ -1,3 +1,5 @@
+
+
 class PlantModel {
   final String? id;
   final List<String> nombreColoquial;
@@ -6,6 +8,7 @@ class PlantModel {
   final String usosMedicinales;
   final String? imageUrl;
   final String? qrCodeUrl;
+  final List<String> categoriesIds; 
 
   PlantModel({
     this.id,
@@ -15,6 +18,7 @@ class PlantModel {
     required this.usosMedicinales,
     this.imageUrl,
     this.qrCodeUrl,
+    required this.categoriesIds,
   });
 
   PlantModel.fromMap(this.id, Map<String, dynamic> snapshot)
@@ -23,7 +27,9 @@ class PlantModel {
         descripcion = snapshot['descripcion'] ?? '',
         usosMedicinales = snapshot['usosMedicinales'] ?? '',
         imageUrl = snapshot['imageUrl'],
-        qrCodeUrl = snapshot['qrCodeUrl'];
+        qrCodeUrl = snapshot['qrCodeUrl'],
+        categoriesIds = List<String>.from(snapshot['categoriesIds'] ?? []);
+        
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -33,6 +39,7 @@ class PlantModel {
         'usosMedicinales': usosMedicinales,
         'imageUrl': imageUrl,
         'qrCodeUrl': qrCodeUrl,
+        'categoriesIds': categoriesIds,
       };
 
   @override
@@ -46,7 +53,8 @@ class PlantModel {
         other.descripcion == descripcion &&
         other.usosMedicinales == usosMedicinales &&
         other.imageUrl == imageUrl &&
-        other.qrCodeUrl == qrCodeUrl;
+        other.qrCodeUrl == qrCodeUrl &&
+        other.categoriesIds == categoriesIds;
   }
 
   @override
@@ -57,5 +65,6 @@ class PlantModel {
       descripcion.hashCode ^
       usosMedicinales.hashCode ^
       (imageUrl?.hashCode ?? 0) ^
-      (qrCodeUrl?.hashCode ?? 0);
+      (qrCodeUrl?.hashCode ?? 0) ^
+      categoriesIds.hashCode; // Nuevo
 }

@@ -1,29 +1,26 @@
-
 class Category {
-  String id;
-  String nombreCategoria;
+  final String? id;
+  final String nombreCategoria;
 
-  Category({required this.id, required this.nombreCategoria});
+  Category({this.id, required this.nombreCategoria});
 
-  Category.fromMap(Map snapshot): 
-    id = snapshot['id'] ?? '',
-    nombreCategoria = snapshot['nombreCategoria'] ?? '';
+  Category.fromMap(this.id, Map<String, dynamic> snapshot)
+      : nombreCategoria = snapshot['nombreCategoria'] ?? '';
 
-  toJson() {
-    return {
-      "id": id,
-      "nombreCategoria": nombreCategoria,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nombreCategoria': nombreCategoria,
+      };
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is Category &&
-        other.nombreCategoria == nombreCategoria &&
-        other.id == id;
+        other.id == id &&
+        other.nombreCategoria == nombreCategoria;
   }
 
   @override
-  int get hashCode => nombreCategoria.hashCode ^ id.hashCode;
+  int get hashCode => id.hashCode ^ nombreCategoria.hashCode;
 }

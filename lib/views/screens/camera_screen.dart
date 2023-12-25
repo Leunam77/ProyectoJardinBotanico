@@ -30,14 +30,13 @@ class _QRViewExampleState extends State<QRViewExample> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
       if (scanData.code != null) {
-        try{
+        try {
           bool esValida = await plantController.esPlantaValida(scanData.code!);
           String nombreCientifico = '';
           if (esValida) {
             nombreCientifico =
                 await plantController.obtenerNombreCientifico(scanData.code!);
           }
-          
 
           setState(() {
             result = scanData;
@@ -58,7 +57,7 @@ class _QRViewExampleState extends State<QRViewExample> {
               showIcon = false;
             }
           });
-        }catch(e){
+        } catch (e) {
           _logger.warning('Error al escanear: ${e.toString()}');
         }
       }
@@ -68,6 +67,19 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50.0), // Cambia la altura aquí
+        child: AppBar(
+          title: const Text(
+            'Escaner de código QR',
+            style: TextStyle(fontSize: 19.0,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -112,7 +124,10 @@ class _QRViewExampleState extends State<QRViewExample> {
                                 overflow:
                                     TextOverflow.ellipsis, // Añade esta línea
                               ))
-                          : Center(child: Text( lastScanValida ? 'Esperando escaner...' : "Código no válido")),
+                          : Center(
+                              child: Text(lastScanValida
+                                  ? 'Esperando escaner...'
+                                  : "Código no válido")),
                     )
                   : const Text('Esperando escaner...'),
             ),
