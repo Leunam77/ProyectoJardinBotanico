@@ -54,19 +54,15 @@ class PlantListScreenState extends State<PlantListScreen> {
     }
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0), // Cambia la altura aquí
-        child: AppBar(
-          title: const Text(
-            'Descargar códigos QR',
-            style: TextStyle(fontSize: 19.0,
-            fontWeight: FontWeight.bold,),
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        title: const Text(
+          'Descargar códigos QR',
+          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
       ),
       body: StreamBuilder<List<PlantModel>>(
         stream: plantController.getPlants(),
@@ -74,19 +70,28 @@ class PlantListScreenState extends State<PlantListScreen> {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-
-          return ListView.builder(
+          return ListView.separated(
             itemCount: snapshot.data!.length,
+            separatorBuilder: (context, index) => const Divider(color: Color.fromARGB(0, 255, 255, 255)),
             itemBuilder: (context, index) {
               final plant = snapshot.data![index];
-              return ListTile(
-                leading: Image.network(plant.imageUrl ?? ''),
-                title: Text(plant.nombreColoquial.isNotEmpty
-                    ? plant.nombreColoquial[0]
-                    : 'Sin nombre'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.download),
-                  onPressed: () => downloadQR(plant),
+              return Card(
+                elevation: 5.0,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(plant.imageUrl ?? ''),
+                    radius: 30,
+                  ),
+                  title: Text(
+                    plant.nombreColoquial.isNotEmpty
+                        ? plant.nombreColoquial[0]
+                        : 'Sin nombre',
+                    style: const TextStyle(fontSize: 17.0),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.download, color: Colors.black, size: 30.0),
+                    onPressed: () => downloadQR(plant),
+                  ),
                 ),
               );
             },

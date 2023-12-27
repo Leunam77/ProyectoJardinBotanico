@@ -2,8 +2,8 @@ import 'package:test/test.dart';
 import 'package:jardin_botanico/models/garden_info_model.dart';
 
 void main() {
-  group('GardenInfo', () {
-    test('debería crear una información de jardín desde un mapa', () {
+  group('Grupo testing GardenInfo', () {
+    test('test que debería crear una información de jardín desde un mapa', () {
       // Configura el mapa
       final map = {
         'id': '1',
@@ -16,7 +16,7 @@ void main() {
       };
 
       // Crea una información de jardín desde el mapa
-      final gardenInfo = GardenInfo.fromMap(map);
+      final gardenInfo = GardenInfo.fromMap('1',map);
 
       // Comprueba que los valores son los esperados
       expect(gardenInfo.id, equals('1'));
@@ -28,7 +28,7 @@ void main() {
       expect(gardenInfo.descripcion, equals('descripcion'));
     });
 
-    test('debería convertir una información de jardín a un mapa', () {
+    test('test que debería convertir una información de jardín a un mapa', () {
       // Configura la información de jardín
       final gardenInfo = GardenInfo(
         id: '1',
@@ -53,7 +53,7 @@ void main() {
       expect(map['descripcion'], equals('descripcion'));
     });
 
-    test('debería comparar dos informaciones de jardín correctamente', () {
+    test('test que debería comparar dos informaciones de jardín correctamente', () {
       // Configura dos informaciones de jardín iguales y una diferente
       final gardenInfo1 = GardenInfo(
         id: '1',

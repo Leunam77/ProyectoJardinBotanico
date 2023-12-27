@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jardin_botanico/views/screens/camera_screen.dart';
+import 'package:jardin_botanico/views/screens/home_screen.dart';
 import 'package:jardin_botanico/views/screens/information._screen.dart';
 import 'package:jardin_botanico/views/screens/search_plants.dart';
+
 
 class HomeButtonPage extends StatefulWidget {
   const HomeButtonPage({Key? key}) : super(key: key);
@@ -13,12 +15,6 @@ class HomeButtonPage extends StatefulWidget {
 
 class HomeButtonPageState extends State<HomeButtonPage> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home'),
-    Text('Camera'),
-    Text('Search'),
-    Text('Information'),
-  ];
   final positions = [
     const Offset(15, -13),
     const Offset(107, -13),
@@ -35,9 +31,9 @@ class HomeButtonPageState extends State<HomeButtonPage> {
               ? InformationScreen()
               : _selectedIndex == 2
                 ? const SearchPlantsPage()
-                : Center(
-                    child: _widgetOptions.elementAt(_selectedIndex),
-                  ),
+                : _selectedIndex == 0
+                  ? HomePagePlants()
+                  : const Text('Error'),
       bottomNavigationBar: Stack(
         children: <Widget>[
           Theme(

@@ -72,9 +72,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         child: AppBar(
           title: const Text(
             'Escaner de código QR',
-            style: TextStyle(fontSize: 19.0,
-              fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -98,38 +96,60 @@ class _QRViewExampleState extends State<QRViewExample> {
           ),
           Expanded(
             flex: 1,
-            child: Center(
-              child: (result != null)
-                  ? SizedBox(
-                      width: 230,
-                      child: showIcon
-                          ? FloatingActionButton(
-                              onPressed: () {
-                                if (result != null && result!.code != null) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          PlantScreen(plantId: result!.code!),
-                                    ),
-                                  );
-                                } else {
-                                  // Maneja el caso en que result.code es null
-                                  _logger
-                                      .warning('El código escaneado es null');
-                                }
-                              },
-                              child: Text(
-                                'Nombre C: $plantName',
-                                overflow:
-                                    TextOverflow.ellipsis, // Añade esta línea
-                              ))
-                          : Center(
-                              child: Text(lastScanValida
-                                  ? 'Esperando escaner...'
-                                  : "Código no válido")),
-                    )
-                  : const Text('Esperando escaner...'),
+            child: Container(
+              // Agrega este widget
+              color: const Color.fromARGB(
+                  255, 23, 57, 0), // Establece el color de fondo a verde
+              child: Center(
+                child: (result != null)
+                    ? SizedBox(
+                        width: 230,
+                        child: showIcon
+                            ? FloatingActionButton(
+                                onPressed: () {
+                                  if (result != null && result!.code != null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PlantScreen(plantId: result!.code!),
+                                      ),
+                                    );
+                                  } else {
+                                    // Maneja el caso en que result.code es null
+                                    _logger
+                                        .warning('El código escaneado es null');
+                                  }
+                                },
+                                backgroundColor:
+                                    const Color.fromARGB(255, 43, 105, 1),
+                                child: Text(
+                                  'Nombre: $plantName',
+                                  overflow:
+                                      TextOverflow.ellipsis, // Añade esta línea
+                                  style: const TextStyle(
+                                      color: Colors
+                                          .white), // Establece el color del texto a blanco
+                                ),
+                              )
+                            : Center(
+                                child: Text(
+                                  lastScanValida
+                                      ? 'Esperando escaner...'
+                                      : "Código no válido",
+                                  style: const TextStyle(
+                                      color: Colors
+                                          .white), // Establece el color del texto a blanco
+                                ),
+                              ),
+                      )
+                    : const Text(
+                        'Esperando escaner...',
+                        style: TextStyle(
+                            color: Colors
+                                .white), // Establece el color del texto a blanco
+                      ),
+              ),
             ),
           )
         ],

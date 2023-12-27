@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jardin_botanico/views/screens/home_button.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({Key? key}) : super(key: key);
   @override
-  HomePageState createState() => HomePageState();
+  HomePageScreenState createState() => HomePageScreenState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

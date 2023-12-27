@@ -23,7 +23,7 @@ class PlantController {
     String imageUrl = await uploadImage(imageFile);
     String qrCodeUrl = await generateQR(docRef.id);
     PlantModel newPlant = PlantModel(
-      id: docRef.id, // Usa el ID generado automáticamente
+      id: docRef.id, 
       nombreColoquial: plant.nombreColoquial,
       nombreCientifico: plant.nombreCientifico,
       descripcion: plant.descripcion,
@@ -31,12 +31,17 @@ class PlantController {
       imageUrl: imageUrl,
       qrCodeUrl: qrCodeUrl,
       categoriesIds: plant.categoriesIds,
+      fechaCreacion: plant.fechaCreacion,
     );
     await docRef.set(newPlant.toJson());
   }
 
   Future<PlantModel> getPlant(String id) async {
     final doc = await firestore.collection('plants').doc(id).get();
+    if (!doc.exists) {
+      throw Exception('Plant not found');
+    }
+
     return PlantModel.fromMap(id, doc.data() as Map<String, dynamic>);
   }
 
@@ -46,6 +51,7 @@ class PlantController {
 
   Future<void> deletePlant(String id) async {
     await firestore.collection('plants').doc(id).delete();
+    
   }
 
   Future<String> uploadImage(File imageFile) async {
@@ -108,10 +114,20 @@ class PlantController {
     if (!doc.exists) {
       throw Exception('No existe una planta con ese código');
     }
-    return doc.get('nombreCientifico');
+
+    List<dynamic> nombreColoquial = doc.get('nombreColoquial') as List<dynamic>;
+    if (nombreColoquial.isNotEmpty) {
+      return nombreColoquial[0] as String;
+    } else {
+      throw Exception('La lista nombreColoquial está vacía');
+    }
   }
   Stream<List<PlantModel>> getPlants() {
-    return firestore.collection('plants').snapshots().map((snapshot) {
+    return firestore
+        .collection('plants')
+        .orderBy('fechaCreacion', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
         return PlantModel.fromMap(doc.id, doc.data());
       }).toList();
@@ -123,5 +139,18 @@ Future<String> getQRUrl(String plantId) async {
     final plant = PlantModel.fromMap(doc.id, doc.data() ?? {});
     return plant.qrCodeUrl ?? '';
   }
+  Future<List<PlantModel>> getLatestPlants() async {
+    final querySnapshot = await firestore
+        .collection('plants')
+        .orderBy('fechaCreacion',
+            descending:
+                true) // Asume que tienes un campo 'fechaCreacion' en tus documentos
+        .limit(10)
+        .get();
 
+    return querySnapshot.docs.map((doc) {
+      return PlantModel.fromMap(doc.id, doc.data());
+    }).toList();
+  }
 }
+

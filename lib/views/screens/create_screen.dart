@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jardin_botanico/models/category_model.dart';
@@ -84,101 +85,140 @@ class CreatePlantFormState extends State<CreatePlantForm> {
           centerTitle: true,
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    nombreColoquialControllers.add(TextEditingController());
-                  });
-                },
-                child: const Text('Agregar nombre coloquial'),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: nombreColoquialControllers.length,
-                itemBuilder: (context, index) {
-                  return TextFormField(
-                    controller: nombreColoquialControllers[index],
-                    decoration:
-                        const InputDecoration(labelText: 'Nombre Coloquial'),
-                    onSaved: (value) {
-                      if (value != null && value.isNotEmpty) {
-                        nombreColoquialControllers[index].text = value;
-                      }
-                    },
-                  );
-                },
-              ),
-              TextFormField(
-                controller: nombreCientificoController,
-                decoration:
-                    const InputDecoration(labelText: 'Nombre Científico'),
-                onSaved: (value) => nombreCientifico = value ?? '',
-              ),
-              TextFormField(
-                controller: descripcionController,
-                decoration: const InputDecoration(labelText: 'Descripción'),
-                onSaved: (value) => descripcion = value ?? '',
-              ),
-              TextFormField(
-                controller: usosMedicinalesController,
-                decoration:
-                    const InputDecoration(labelText: 'Usos Medicinales'),
-                onSaved: (value) => usosMedicinales = value ?? '',
-              ),
-              if (imageFile != null) Text(imageFile!.path),
-              ElevatedButton(
-                onPressed: selectImage,
-                child: const Text('Seleccionar imagen'),
-              ),
-              ElevatedButton(
-                child: const Text('Agregar Categoría'),
-                onPressed: () {
-                  showModalCategory(context);
-                },
-              ),
-              ElevatedButton(
-                child: const Text('Seleccionar Categoría'),
-                onPressed: () => selectCategory(context),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    List<String> nombreColoquial = nombreColoquialControllers
-                        .map((controller) => controller.text)
-                        .toList();
-                    List<String> categoriesIds = selectedCategories
-                        .map((category) => category.id)
-                        .where(
-                            (id) => id != null) // Filtra cualquier valor null
-                        .map((id) =>
-                            id!) // Convierte la lista de String? a lista de String
-                        .toList();
-                    PlantModel newPlant = PlantModel(
-                      nombreColoquial: nombreColoquial,
-                      nombreCientifico: nombreCientifico,
-                      descripcion: descripcion,
-                      usosMedicinales: usosMedicinales,
-                      categoriesIds: categoriesIds,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Card(
+                  child: ListTile(
+                    title: const Text('Agregar nombre coloquial'),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          nombreColoquialControllers
+                              .add(TextEditingController());
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: nombreColoquialControllers.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        title: TextFormField(
+                          controller: nombreColoquialControllers[index],
+                          decoration: const InputDecoration(
+                            labelText: 'Nombre Coloquial',
+                            border: InputBorder.none,
+                          ),
+                          onSaved: (value) {
+                            if (value != null && value.isNotEmpty) {
+                              nombreColoquialControllers[index].text = value;
+                            }
+                          },
+                        ),
+                      ),
                     );
-                    plantController.createPlant(newPlant, imageFile!);
-                  }
-                  for (var controller in nombreColoquialControllers) {
-                    controller.clear();
-                  }
-                  nombreCientificoController.clear();
-                  descripcionController.clear();
-                  usosMedicinalesController.clear();
-                  resetImage();
-                },
-                child: const Text('Crear Planta'),
-              ),
-            ],
+                  },
+                ),
+                const SizedBox(height: 15),
+                Card(
+                  child: ListTile(
+                    title: TextFormField(
+                      controller: nombreCientificoController,
+                      decoration:
+                          const InputDecoration(labelText: 'Nombre Científico'),
+                      onSaved: (value) => nombreCientifico = value ?? '',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Card(
+                  child: ListTile(
+                    title: TextFormField(
+                      controller: descripcionController,
+                      decoration:
+                          const InputDecoration(labelText: 'Descripción'),
+                      onSaved: (value) => descripcion = value ?? '',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Card(
+                  child: ListTile(
+                    title: TextFormField(
+                      controller: usosMedicinalesController,
+                      decoration:
+                          const InputDecoration(labelText: 'Usos Medicinales'),
+                      onSaved: (value) => usosMedicinales = value ?? '',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Card(
+                  child: Column(
+                    children: <Widget>[
+                      if (imageFile != null) Text(imageFile!.path),
+                      ElevatedButton(
+                        onPressed: selectImage,
+                        child: const Text('Seleccionar imagen'),
+                      ),
+                      ElevatedButton(
+                        child: const Text('Agregar Categoría'),
+                        onPressed: () {
+                          showModalCategory(context);
+                        },
+                      ),
+                      ElevatedButton(
+                        child: const Text('Seleccionar Categoría'),
+                        onPressed: () => selectCategory(context),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      List<String> nombreColoquial = nombreColoquialControllers
+                          .map((controller) => controller.text)
+                          .toList();
+                      List<String> categoriesIds = selectedCategories
+                          .map((category) => category.id)
+                          .where(
+                              (id) => id != null) // Filtra cualquier valor null
+                          .map((id) =>
+                              id!) // Convierte la lista de String? a lista de String
+                          .toList();
+                      PlantModel newPlant = PlantModel(
+                        nombreColoquial: nombreColoquial,
+                        nombreCientifico: nombreCientifico,
+                        descripcion: descripcion,
+                        usosMedicinales: usosMedicinales,
+                        categoriesIds: categoriesIds,
+                        fechaCreacion: Timestamp.now(),
+                      );
+                      plantController.createPlant(newPlant, imageFile!);
+                    }
+                    for (var controller in nombreColoquialControllers) {
+                      controller.clear();
+                    }
+                    nombreCientificoController.clear();
+                    descripcionController.clear();
+                    usosMedicinalesController.clear();
+                    resetImage();
+                  },
+                  child: const Text('Crear Planta'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

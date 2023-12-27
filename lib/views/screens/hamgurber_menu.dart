@@ -18,15 +18,6 @@ class HamburgerMenu extends StatelessWidget {
           },
         ),
         ListTile(
-          title: const Text('Editar planta'),
-          onTap: () {
-            // Actualiza el estado de la aplicación
-            // ...
-            // Luego cierra el drawer
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
           title: const Text('Descargar QR'),
           onTap: () {
             Navigator.push(

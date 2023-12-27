@@ -3,6 +3,7 @@ import 'package:jardin_botanico/models/plant_model.dart';
 import 'package:jardin_botanico/controllers/plant_controller.dart';
 import 'package:jardin_botanico/models/category_model.dart';
 import 'package:jardin_botanico/controllers/category_controller.dart';
+import 'package:jardin_botanico/views/screens/plant_screen.dart';
 
 class SearchPlantsPage extends StatefulWidget {
   const SearchPlantsPage({super.key});
@@ -53,7 +54,12 @@ class SearchPlantsPageState extends State<SearchPlantsPage> {
                 });
               },
               decoration: InputDecoration(
+                fillColor: Colors.grey[200],
+                filled: true,
                 labelText: 'Buscar',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {
@@ -66,19 +72,44 @@ class SearchPlantsPageState extends State<SearchPlantsPage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: searchResults.length,
-              itemBuilder: (context, index) {
-                final plant = searchResults[index];
-                return ListTile(
-                  leading: Image.network(plant.imageUrl ?? ''),
-                  title: Text(plant.nombreColoquial.first),
-                  subtitle: Text(
-                      categories[plant.categoriesIds.first]?.nombreCategoria ??
-                          ''),
-                );
-              },
-            ),
+            child: searchResults.isEmpty
+                ? const Center(child: Text('No se encontraron resultados'))
+                : ListView.builder(
+                    itemCount: searchResults.length,
+                    itemBuilder: (context, index) {
+                      final plant = searchResults[index];
+                      return ListTile(
+                        leading: ClipOval(
+                          child: Image.network(plant.imageUrl ?? ''),
+                        ),
+                        title: Text(
+                          plant.nombreColoquial.first,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          categories[plant.categoriesIds.first]
+                                  ?.nombreCategoria ??
+                              '',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      trailing: ElevatedButton(
+                          onPressed: () {
+                            // Navega a otra página
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PlantScreen(plantId: plant.id!)),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),

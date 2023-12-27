@@ -1,4 +1,5 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class PlantModel {
   final String? id;
@@ -8,7 +9,8 @@ class PlantModel {
   final String usosMedicinales;
   final String? imageUrl;
   final String? qrCodeUrl;
-  final List<String> categoriesIds; 
+  final List<String> categoriesIds;
+  final Timestamp fechaCreacion;
 
   PlantModel({
     this.id,
@@ -19,6 +21,7 @@ class PlantModel {
     this.imageUrl,
     this.qrCodeUrl,
     required this.categoriesIds,
+    required this.fechaCreacion,
   });
 
   PlantModel.fromMap(this.id, Map<String, dynamic> snapshot)
@@ -28,8 +31,8 @@ class PlantModel {
         usosMedicinales = snapshot['usosMedicinales'] ?? '',
         imageUrl = snapshot['imageUrl'],
         qrCodeUrl = snapshot['qrCodeUrl'],
-        categoriesIds = List<String>.from(snapshot['categoriesIds'] ?? []);
-        
+        categoriesIds = List<String>.from(snapshot['categoriesIds'] ?? []),
+        fechaCreacion = snapshot['fechaCreacion'] ?? Timestamp.now();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -40,6 +43,7 @@ class PlantModel {
         'imageUrl': imageUrl,
         'qrCodeUrl': qrCodeUrl,
         'categoriesIds': categoriesIds,
+        'fechaCreacion': fechaCreacion,
       };
 
   @override
@@ -48,13 +52,15 @@ class PlantModel {
 
     return other is PlantModel &&
         other.id == id &&
-        other.nombreColoquial == nombreColoquial &&
+        listEquals(other.nombreColoquial, nombreColoquial) &&
         other.nombreCientifico == nombreCientifico &&
         other.descripcion == descripcion &&
         other.usosMedicinales == usosMedicinales &&
         other.imageUrl == imageUrl &&
         other.qrCodeUrl == qrCodeUrl &&
-        other.categoriesIds == categoriesIds;
+        listEquals(other.categoriesIds, categoriesIds) &&
+        other.fechaCreacion.millisecondsSinceEpoch ==
+            fechaCreacion.millisecondsSinceEpoch;
   }
 
   @override
@@ -66,5 +72,6 @@ class PlantModel {
       usosMedicinales.hashCode ^
       (imageUrl?.hashCode ?? 0) ^
       (qrCodeUrl?.hashCode ?? 0) ^
-      categoriesIds.hashCode; // Nuevo
+      categoriesIds.hashCode ^
+      fechaCreacion.millisecondsSinceEpoch.hashCode;
 }

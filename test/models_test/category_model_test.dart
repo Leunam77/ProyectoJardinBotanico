@@ -2,20 +2,20 @@ import 'package:test/test.dart';
 import 'package:jardin_botanico/models/category_model.dart';
 
 void main() {
-  group('Category', () {
-    test('debería crear una categoría desde un mapa', () {
+  group('Grupo testing Category', () {
+    test('test que debería crear una categoría desde un mapa', () {
       // Configura el mapa
-      final map = {'id': '1', 'nombreCategoria': 'Categoria 1'};
+      final map = {'nombreCategoria': 'Categoria 1'};
 
       // Crea una categoría desde el mapa
-      final category = Category.fromMap(map);
+      final category = Category.fromMap('1', map);
 
       // Comprueba que los valores son los esperados
       expect(category.id, equals('1'));
       expect(category.nombreCategoria, equals('Categoria 1'));
     });
 
-    test('debería convertir una categoría a un mapa', () {
+    test('test que debería convertir una categoría a un mapa', () {
       // Configura la categoría
       final category = Category(id: '1', nombreCategoria: 'Categoria 1');
 
@@ -27,7 +27,7 @@ void main() {
       expect(map['nombreCategoria'], equals('Categoria 1'));
     });
 
-    test('debería comparar dos categorías correctamente', () {
+    test('test que debería comparar dos categorías correctamente', () {
       // Configura dos categorías iguales y una diferente
       final category1 = Category(id: '1', nombreCategoria: 'Categoria 1');
       final category2 = Category(id: '1', nombreCategoria: 'Categoria 1');

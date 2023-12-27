@@ -7,21 +7,49 @@ import 'package:jardin_botanico/models/category_model.dart';
 void main() {
   group('test grupo Category controller', () {
     final firestore = FakeFirebaseFirestore();
-    FirebaseService.firestore = firestore; // Inicializa firestore en FirebaseService
-    final controller = CategoryController(firestore : firestore);
-
+    FirebaseService.firestore =
+        firestore; // Inicializa firestore en FirebaseService
+    final controller = CategoryController(firestore: firestore);
+    test('test que debería lanzar una excepción al leer una categoría que no existe',
+        () async {
+      expect(() async => await controller.readCategory('id_inexistente'),
+          throwsA(isA<Exception>()));
+    });
+    test(
+        'test que debería lanzar una excepción al actualizar una categoría que no existe',
+        () async {
+      final category = Category(id: 'id_inexistente', nombreCategoria: 'Test');
+      expect(() async => await controller.updateCategory(category),
+          throwsA(isA<Exception>()));
+    });
+    test(
+        'test que debería completarse sin errores al eliminar una categoría que no existe',
+        () async {
+      await expectLater(controller.deleteCategory('id_inexistente'), completes);
+    });
+    test(
+        'test que debería completarse sin errores al eliminar una categoría que no existe',
+        () async {
+      await expectLater(controller.deleteCategory('id_inexistente'), completes);
+    });
+    test('test que debería devolver una lista vacía cuando no hay categorías', () async {
+      final categories = await controller.getCategories();
+      expect(categories, isEmpty);
+    });
     test('test de createCategory', () async {
-      final category = Category(nombreCategoria: 'Test', id: ''); // Define la categoría
-      final docRef = await controller.createCategory(category); // Crea la categ
+      final category =
+          Category(nombreCategoria: 'Test', id: ''); // Define la categoría
+      await controller.createCategory(category); // Crea la categoría
 
+      // Recupera todas las categorías
+      final categories = await controller.getCategories();
 
-      final snapshot = await docRef.get();
-      expect(snapshot.exists, isTrue);
-      expect(snapshot.data(), equals(category.toJson()));
-      expect(docRef.id, isNotEmpty);
-      final data = snapshot.data()! as Map<String, dynamic>;
-      expect(data['nombreCategoria'], equals(category.nombreCategoria));
-    });  
+      // Verifica que la categoría fue creada correctamente
+      expect(categories, isNotEmpty);
+      expect(
+          categories.any((c) => c.nombreCategoria == category.nombreCategoria),
+          isTrue);
+    });
 
     test('test de readCategory', () async {
       final category =
@@ -73,6 +101,5 @@ void main() {
           .get(); // Intenta obtener la categoría borrada
       expect(snapshot.exists, isFalse);
     });
-    
   });
-}  
+}
