@@ -6,10 +6,9 @@ import 'package:jardin_botanico/models/services/firebase_service.dart';
 
 void main() {
   final firestore = FakeFirebaseFirestore();
-  FirebaseService.firestore =
-      firestore; // Inicializa firestore en FirebaseService
+  FirebaseService.firestore = firestore;
   final controller = GardenInfoController(firestore: firestore);
-  
+
   group('grupo de test de GardenInfoController', () {
     test('test de getGardenInfo con un documento no existente', () async {
       final result = await controller.getGardenInfo();
@@ -95,7 +94,6 @@ void main() {
           snapshot.id, snapshot.data() as Map<String, dynamic>);
       expect(result, gardenInfo);
     });
-    
 
     test('test de setGardenInfo con un documento existente', () async {
       final gardenInfo = GardenInfo(

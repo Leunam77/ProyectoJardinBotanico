@@ -3,6 +3,7 @@ import 'package:jardin_botanico/controllers/plant_controller.dart';
 import 'package:jardin_botanico/models/plant_model.dart';
 import 'package:jardin_botanico/models/category_model.dart';
 import 'package:jardin_botanico/controllers/category_controller.dart';
+
 class PlantScreen extends StatefulWidget {
   final String plantId;
   final PlantModel? plant;
@@ -72,30 +73,32 @@ class PlantScreenState extends State<PlantScreen> {
                           Card(
                             child: ListTile(
                               title: Text(
-                                  'Nombres: ${plant.nombreColoquial.join(', ')}',
+                                'Nombres: ${plant.nombreColoquial.join(', ')}',
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               subtitle: Text(
-                                  'Nombres Científicos: ${plant.nombreCientifico}',
+                                'Nombres Científicos: ${plant.nombreCientifico}',
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
-                                    fontStyle: FontStyle.italic,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.italic,
                                 ),
                               ),
                             ),
                           ),
                           Card(
                             child: ListTile(
-                              title: const Text('Categorías',
+                              title: const Text(
+                                'Categorías',
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(categoryNames.join(', '),
+                              subtitle: Text(
+                                categoryNames.join(', '),
                                 style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.normal),
@@ -112,26 +115,30 @@ class PlantScreenState extends State<PlantScreen> {
                           ),
                           Card(
                             child: ListTile(
-                              title: const Text('Descripción',
-                                  style: TextStyle(fontSize: 18.0,
-                                  fontWeight: FontWeight.bold
-                                  ),
+                              title: const Text(
+                                'Descripción',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(plant.descripcion,
-                                  style: const TextStyle(fontSize: 16.0,
-                                  fontWeight: FontWeight.normal
-                                  ),
+                              subtitle: Text(
+                                plant.descripcion,
+                                style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
                               ),
                             ),
                           ),
                           Card(
                             child: ListTile(
-                              title: const Text('Usos Medicinales',
+                              title: const Text(
+                                'Usos Medicinales',
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(plant.usosMedicinales,
+                              subtitle: Text(
+                                plant.usosMedicinales,
                                 style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.normal),

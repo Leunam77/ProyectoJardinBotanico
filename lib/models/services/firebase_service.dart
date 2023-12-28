@@ -9,7 +9,6 @@ class FirebaseService {
   static FirebaseStorage? _storage;
   static FirebasePerformance? _performance;
 
-
   Future<void> initializeFirebase() async {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
@@ -21,8 +20,22 @@ class FirebaseService {
     _performance = FirebasePerformance.instance;
   }
 
-  static FirebaseFirestore get firestore => _firestore!;
-  static FirebaseStorage get storage => _storage!;
+  static FirebaseFirestore get firestore {
+    if (_firestore == null) {
+      throw Exception(
+          "Firestore is not initialized. Call initializeFirebase() first.");
+    }
+    return _firestore!;
+  }
+
+  static FirebaseStorage get storage {
+    if (_storage == null) {
+      throw Exception(
+          "Storage is not initialized. Call initializeFirebase() first.");
+    }
+    return _storage!;
+  }
+
   static Future<FirebasePerformance> get performance async {
     _performance ??= FirebasePerformance.instance;
     return _performance!;

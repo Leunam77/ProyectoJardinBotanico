@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jardin_botanico/models/category_model.dart';
 
-
 Future<List<Category>> showModalSelectCategory(
     BuildContext context, List<Category> categories) async {
   List<Category> selectedCategories = [];

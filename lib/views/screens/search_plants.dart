@@ -92,7 +92,7 @@ class SearchPlantsPageState extends State<SearchPlantsPage> {
                               '',
                           style: const TextStyle(color: Colors.grey),
                         ),
-                      trailing: ElevatedButton(
+                        trailing: ElevatedButton(
                           onPressed: () {
                             // Navega a otra página
                             Navigator.push(

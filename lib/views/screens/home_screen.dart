@@ -23,8 +23,7 @@ class HomePagePlants extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<List<PlantModel>>(
-        future: plantController
-            .getLatestPlants(), 
+        future: plantController.getLatestPlants(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -49,20 +48,16 @@ class HomePagePlants extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              plant.nombreColoquial[
-                                  0], 
+                              plant.nombreColoquial[0],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                  color: Colors
-                                      .white,
-                                  fontSize: 16.0), 
+                                  color: Colors.white, fontSize: 16.0),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Image.network(
-                              plant
-                                  .imageUrl!,
+                              plant.imageUrl!,
                               width: 100,
                               height: 100,
                             ),
@@ -75,8 +70,10 @@ class HomePagePlants extends StatelessWidget {
                                           PlantScreen(plantId: plant.id!)),
                                 );
                               },
-                              child: const Icon(Icons.arrow_forward,
-                              color: Colors.black,),
+                              child: const Icon(
+                                Icons.arrow_forward,
+                                color: Colors.black,
+                              ),
                             ),
                           ],
                         ),

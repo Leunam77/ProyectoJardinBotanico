@@ -15,10 +15,6 @@ class MockFile extends Mock implements File {
 
 void main() {
   group('Grupo de testing  Plant controller', () {
-    // final firestore = FakeFirebaseFirestore();
-    // FirebaseService.firestore =
-    //     firestore; // Inicializa firestore en FirebaseService
-    // final controller = PlantController(firestore: firestore);
     late PlantController controller;
     late MockFile imageFile;
     late FakeFirebaseFirestore firestore;
@@ -49,28 +45,22 @@ void main() {
 
       await controller.createPlant(plant, imageFile);
 
-      // Espera un poco para que se cree el documento
       await Future.delayed(const Duration(seconds: 10));
 
-      // Obtiene el documento más reciente en la colección 'plants'
       final querySnapshot = await firestore
           .collection('plants')
           .orderBy('fechaCreacion', descending: true)
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot.docs, isNotEmpty);
 
-      // Obtiene el documento más reciente
       final latestDoc = querySnapshot.docs.first;
 
-      // Verifica que el documento más reciente tenga los datos correctos
       expect(latestDoc['nombreColoquial'], equals(plant.nombreColoquial));
       expect(latestDoc['nombreCientifico'], equals(plant.nombreCientifico));
       expect(latestDoc['descripcion'], equals(plant.descripcion));
       expect(latestDoc['usosMedicinales'], equals(plant.usosMedicinales));
-      // Agrega más expectativas para los otros campos
     });
 
     test('test de obtencion con getPlant', () async {
@@ -82,16 +72,13 @@ void main() {
         usosMedicinales: 'usosMedicinales',
         imageUrl: 'imageUrl',
         qrCodeUrl: 'qrCodeUrl',
-        categoriesIds: [
-          'categoryId'
-        ], // Añadido el argumento requerido 'categoriesIds'
-        fechaCreacion: Timestamp.fromDate(DateTime(
-            2022, 12, 31)), // Añadido el argumento requerido 'fechaCreacion'
-      ); // Define la planta
+        categoriesIds: ['categoryId'],
+        fechaCreacion: Timestamp.fromDate(DateTime(2022, 12, 31)),
+      );
       await firestore.collection('plants').doc(plant.id).set(plant.toJson());
 
       final snapshot = await firestore.collection('plants').doc('id1').get();
-      expect(snapshot.data(), equals(plant.toJson())); // Corregido 'result'
+      expect(snapshot.data(), equals(plant.toJson()));
     });
 
     test('test de actualizacion con updatePlant', () async {
@@ -103,37 +90,25 @@ void main() {
         usosMedicinales: 'usosMedicinales',
         imageUrl: 'imageUrl',
         qrCodeUrl: 'qrCodeUrl',
-        categoriesIds: [
-          'categoryId'
-        ], // Añadido el argumento requerido 'categoriesIds'
-        fechaCreacion: Timestamp.fromDate(DateTime(
-            2022, 12, 31)), // Añadido el argumento requerido 'fechaCreacion'
-      ); // Define la planta
-      await firestore
-          .collection('plants')
-          .doc(plant.id)
-          .set(plant.toJson()); // Añade la planta a la base de datos
+        categoriesIds: ['categoryId'],
+        fechaCreacion: Timestamp.fromDate(DateTime(2022, 12, 31)),
+      );
+      await firestore.collection('plants').doc(plant.id).set(plant.toJson());
 
       final updatedPlant = PlantModel(
         id: 'id1',
-        nombreColoquial: [
-          'nombreColoquial actualizado'
-        ], // Corregido a List<String>
+        nombreColoquial: ['nombreColoquial actualizado'],
         nombreCientifico: 'nombreCientifico actualizado',
         descripcion: 'descripcion actualizada',
         usosMedicinales: 'usosMedicinales actualizados',
-        imageUrl: 'imageUrl', // Añadido campo requerido
-        qrCodeUrl: 'qrCodeUrl', // Añadido campo requerido
-        categoriesIds: ['categoryId'], // Añadido campo requerido
-        fechaCreacion: Timestamp.fromDate(
-            DateTime(2022, 12, 31)), // Añadido campo requerido
-      ); // // Define la planta actualizada
-      await controller.updatePlant(updatedPlant); // Actualiza la planta
+        imageUrl: 'imageUrl',
+        qrCodeUrl: 'qrCodeUrl',
+        categoriesIds: ['categoryId'],
+        fechaCreacion: Timestamp.fromDate(DateTime(2022, 12, 31)),
+      );
+      await controller.updatePlant(updatedPlant);
 
-      final snapshot = await firestore
-          .collection('plants')
-          .doc(plant.id)
-          .get(); // Obtiene la planta actualizada
+      final snapshot = await firestore.collection('plants').doc(plant.id).get();
       final data = snapshot.data()!;
       expect(data, equals(updatedPlant.toJson()));
     });
@@ -141,41 +116,30 @@ void main() {
     test('test de borrar con deletePlant', () async {
       final plant = PlantModel(
         id: 'id1',
-        nombreColoquial: ['nombreColoquial'], // Corregido a List<String>
+        nombreColoquial: ['nombreColoquial'],
         nombreCientifico: 'nombreCientifico',
         descripcion: 'descripcion',
         usosMedicinales: 'usosMedicinales',
-        imageUrl: 'imageUrl', // Añadido campo requerido
-        qrCodeUrl: 'qrCodeUrl', // Añadido campo requerido
-        categoriesIds: ['categoryId'], // Añadido campo requerido
-        fechaCreacion: Timestamp.fromDate(
-            DateTime(2022, 12, 31)), // Añadido campo requerido
-      ); // Define la planta
+        imageUrl: 'imageUrl',
+        qrCodeUrl: 'qrCodeUrl',
+        categoriesIds: ['categoryId'],
+        fechaCreacion: Timestamp.fromDate(DateTime(2022, 12, 31)),
+      );
 
-      await firestore
-          .collection('plants')
-          .doc('id')
-          .set(plant.toJson()); // Añade la planta a la base de datos
+      await firestore.collection('plants').doc('id').set(plant.toJson());
 
-      await controller.deletePlant('id'); // Borra la planta
+      await controller.deletePlant('id');
 
-      final snapshot = await firestore
-          .collection('plants')
-          .doc('id')
-          .get(); // Intenta obtener la planta borrada
+      final snapshot = await firestore.collection('plants').doc('id').get();
       expect(snapshot.exists, isFalse);
     });
     test('test de subir imagen con uploadImage', () async {
-      // Crea una instancia de MockFirebaseStorage
       final storage = MockFirebaseStorage();
 
-      // Crea una instancia de tu controlador, pasándole la instancia de MockFirebaseStorage
       final controller = PlantController(storage: storage);
       final image = File('path/a/la/imagen');
-      // Llama a tu método de prueba
       final result = await controller.uploadImage(image);
 
-      // Asegúrate de que el resultado es el esperado
       expect(result,
           'https://firebasestorage.googleapis.com/v0/b/some-bucket/o/plants/imagen');
     });
@@ -205,7 +169,6 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot.docs, isNotEmpty);
 
       final updatedPlant = PlantModel(
@@ -228,15 +191,15 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
 
       await controller.deletePlant(querySnapshot2.docs.first.id);
 
-      expect(() async => await controller.getPlant(querySnapshot2.docs.first.id),
+      expect(
+          () async => await controller.getPlant(querySnapshot2.docs.first.id),
           throwsA(isA<Exception>()));
     });
-    // Prueba para `uploadImage`
+
     test('test de subir imagen y devolver URLImagen', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -262,7 +225,6 @@ void main() {
       expect(qrUrl, startsWith('https://'));
     });
 
-// Prueba para `esPlantaValida`
     test('test de retornar verdadero para verificar plantaValida', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -287,14 +249,13 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
-      final isValid = await controller.esPlantaValida(querySnapshot2.docs.first.id);
+      final isValid =
+          await controller.esPlantaValida(querySnapshot2.docs.first.id);
 
       expect(isValid, isTrue);
     });
 
-// Prueba para `obtenerNombreCientifico`
     test('test de retorno de primerNombreColoquial', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -319,15 +280,13 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
-      final nombreCientifico =
-          await controller.obtenerNombreCientifico(querySnapshot2.docs.first.id);
+      final nombreCientifico = await controller
+          .obtenerNombreCientifico(querySnapshot2.docs.first.id);
 
       expect(nombreCientifico, equals('nombreColoquial'));
     });
 
-// Prueba para `getPlants`
     test('test de lista de plantas', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -352,14 +311,12 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
       final plants = await controller.getPlants().first;
 
       expect(plants, isNotEmpty);
     });
 
-// Prueba para `getQRUrl`
     test('test retorno un Qr valido por planta', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -384,15 +341,13 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
-      final qrUrl = await controller.getQRUrl(querySnapshot2.docs.first.id);  
+      final qrUrl = await controller.getQRUrl(querySnapshot2.docs.first.id);
 
       expect(qrUrl, isNotNull);
       expect(qrUrl, startsWith('https://'));
     });
 
-// Prueba para `getLatestPlants`
     test('test retorno las ultimas plantas', () async {
       final controller = PlantController(
         firestore: firestore,
@@ -417,7 +372,6 @@ void main() {
           .limit(1)
           .get();
 
-      // Asegúrate de que se haya creado un documento
       expect(querySnapshot2.docs, isNotEmpty);
       final latestPlants = await controller.getLatestPlants();
 

@@ -10,7 +10,7 @@ import 'package:jardin_botanico/controllers/category_controller.dart';
 import 'package:jardin_botanico/views/screens/modal_options_category.dart';
 
 class CreatePlantForm extends StatefulWidget {
-  const CreatePlantForm({super.key});
+  const CreatePlantForm({Key? key}) : super(key: key);
 
   @override
   CreatePlantFormState createState() => CreatePlantFormState();
@@ -74,12 +74,13 @@ class CreatePlantFormState extends State<CreatePlantForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0), 
+        preferredSize: const Size.fromHeight(50.0),
         child: AppBar(
           title: const Text(
             'Registrar planta',
-            style: TextStyle(fontSize: 19.0,
-              fontWeight: FontWeight.bold
+            style: TextStyle(
+              fontSize: 19.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
           centerTitle: true,
@@ -192,10 +193,8 @@ class CreatePlantFormState extends State<CreatePlantForm> {
                           .toList();
                       List<String> categoriesIds = selectedCategories
                           .map((category) => category.id)
-                          .where(
-                              (id) => id != null) 
-                          .map((id) =>
-                              id!) 
+                          .where((id) => id != null)
+                          .map((id) => id!)
                           .toList();
                       PlantModel newPlant = PlantModel(
                         nombreColoquial: nombreColoquial,

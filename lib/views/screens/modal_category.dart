@@ -26,8 +26,7 @@ void showModalCategory(BuildContext context) {
             child: const Text('Agregar'),
             onPressed: () async {
               String nombreCategoria = controller.text;
-              Category newCategory =
-                  Category(nombreCategoria: nombreCategoria);
+              Category newCategory = Category(nombreCategoria: nombreCategoria);
               await categoryController.createCategory(newCategory);
               navigator.pop();
             },

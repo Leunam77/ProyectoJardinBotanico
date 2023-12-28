@@ -7,15 +7,12 @@ void main() {
   group('Grupo testing FirebaseService', () {
     test('test debería inicializar Firestore y Storage', () async {
       TestWidgetsFlutterBinding.ensureInitialized();
-      // Configura los fakes
       final firestore = FakeFirebaseFirestore();
       final storage = MockFirebaseStorage();
 
-      // Configura el servicio de Firebase
       FirebaseService.firestore = firestore;
       FirebaseService.storage = storage;
 
-      // Comprueba que Firestore y Storage se han inicializado correctamente
       expect(FirebaseService.firestore, equals(firestore));
       expect(FirebaseService.storage, equals(storage));
     });

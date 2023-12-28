@@ -9,7 +9,7 @@ import 'dart:async';
 class QRViewExample extends StatefulWidget {
   final PlantModel? plant;
 
-  const QRViewExample({super.key, this.plant});
+  const QRViewExample({Key? key, this.plant}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
@@ -25,6 +25,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   String plantName = 'No disponible';
   Timer? _timer;
   bool lastScanValida = true;
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
@@ -66,7 +67,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0), 
+        preferredSize: const Size.fromHeight(50.0),
         child: AppBar(
           title: const Text(
             'Escaner de código QR',
@@ -95,8 +96,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           Expanded(
             flex: 1,
             child: Container(
-              color: const Color.fromARGB(
-                  255, 23, 57, 0), 
+              color: const Color.fromARGB(255, 23, 57, 0),
               child: Center(
                 child: (result != null)
                     ? SizedBox(
@@ -121,11 +121,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                                     const Color.fromARGB(255, 43, 105, 1),
                                 child: Text(
                                   'Nombre: $plantName',
-                                  overflow:
-                                      TextOverflow.ellipsis, // Añade esta línea
-                                  style: const TextStyle(
-                                      color: Colors
-                                          .white), 
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               )
                             : Center(
@@ -133,17 +130,13 @@ class _QRViewExampleState extends State<QRViewExample> {
                                   lastScanValida
                                       ? 'Esperando escaner...'
                                       : "Código no válido",
-                                  style: const TextStyle(
-                                      color: Colors
-                                          .white), 
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                       )
                     : const Text(
                         'Esperando escaner...',
-                        style: TextStyle(
-                            color: Colors
-                                .white), 
+                        style: TextStyle(color: Colors.white),
                       ),
               ),
             ),

@@ -8,22 +8,30 @@ import 'package:jardin_botanico/models/services/firebase_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:path/path.dart' as path;
 
-
 class PlantController {
   final FirebaseFirestore firestore;
   final FirebaseStorage storage;
-
 
   PlantController({FirebaseFirestore? firestore, FirebaseStorage? storage})
       : firestore = firestore ?? FirebaseService.firestore,
         storage = storage ?? FirebaseService.storage;
 
   Future<void> createPlant(PlantModel plant, File imageFile) async {
-    DocumentReference docRef = await firestore.collection('plants').add({});    
+    DocumentReference docRef = await createDocument();
     String imageUrl = await uploadImage(imageFile);
     String qrCodeUrl = await generateQR(docRef.id);
-    PlantModel newPlant = PlantModel(
-      id: docRef.id, 
+    PlantModel newPlant = createNewPlant(plant, docRef.id, imageUrl, qrCodeUrl);
+    await docRef.set(newPlant.toJson());
+  }
+
+  Future<DocumentReference> createDocument() {
+    return firestore.collection('plants').add({});
+  }
+
+  PlantModel createNewPlant(
+      PlantModel plant, String id, String imageUrl, String qrCodeUrl) {
+    return PlantModel(
+      id: id,
       nombreColoquial: plant.nombreColoquial,
       nombreCientifico: plant.nombreCientifico,
       descripcion: plant.descripcion,
@@ -33,7 +41,6 @@ class PlantController {
       categoriesIds: plant.categoriesIds,
       fechaCreacion: plant.fechaCreacion,
     );
-    await docRef.set(newPlant.toJson());
   }
 
   Future<PlantModel> getPlant(String id) async {
@@ -51,12 +58,11 @@ class PlantController {
 
   Future<void> deletePlant(String id) async {
     await firestore.collection('plants').doc(id).delete();
-    
   }
 
   Future<String> uploadImage(File imageFile) async {
     FirebaseStorage storage = FirebaseService.storage;
-    String fileName = path.basename(imageFile.path); 
+    String fileName = path.basename(imageFile.path);
     Reference ref = storage.ref().child('plants/$fileName');
     UploadTask uploadTask = ref.putFile(imageFile);
 
@@ -74,9 +80,9 @@ class PlantController {
         color: Colors.black,
       ),
       dataModuleStyle: const QrDataModuleStyle(
-        dataModuleShape: QrDataModuleShape.square, 
+        dataModuleShape: QrDataModuleShape.square,
         color: Colors.black,
-      ), 
+      ),
     );
 
     final image = await qrCode.toImage(600);
@@ -93,6 +99,7 @@ class PlantController {
     await uploadTask.whenComplete(() => null);
     return await ref.getDownloadURL();
   }
+
   Future<bool> esPlantaValida(String codigo) async {
     if (codigo.contains('//')) {
       return false;
@@ -101,6 +108,7 @@ class PlantController {
         await firestore.collection('plants').doc(codigo).get();
     return doc.exists;
   }
+
   Future<String> obtenerNombreCientifico(String codigo) async {
     if (codigo.contains('//')) {
       throw Exception('El código no puede contener "//"');
@@ -119,6 +127,7 @@ class PlantController {
       throw Exception('La lista nombreColoquial está vacía');
     }
   }
+
   Stream<List<PlantModel>> getPlants() {
     return firestore
         .collection('plants')
@@ -131,17 +140,16 @@ class PlantController {
     });
   }
 
-Future<String> getQRUrl(String plantId) async {
+  Future<String> getQRUrl(String plantId) async {
     final doc = await firestore.collection('plants').doc(plantId).get();
     final plant = PlantModel.fromMap(doc.id, doc.data() ?? {});
     return plant.qrCodeUrl ?? '';
   }
+
   Future<List<PlantModel>> getLatestPlants() async {
     final querySnapshot = await firestore
         .collection('plants')
-        .orderBy('fechaCreacion',
-            descending:
-                true) 
+        .orderBy('fechaCreacion', descending: true)
         .limit(10)
         .get();
 
@@ -150,4 +158,3 @@ Future<String> getQRUrl(String plantId) async {
     }).toList();
   }
 }
-

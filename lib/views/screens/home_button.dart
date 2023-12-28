@@ -5,7 +5,6 @@ import 'package:jardin_botanico/views/screens/home_screen.dart';
 import 'package:jardin_botanico/views/screens/information._screen.dart';
 import 'package:jardin_botanico/views/screens/search_plants.dart';
 
-
 class HomeButtonPage extends StatefulWidget {
   const HomeButtonPage({Key? key}) : super(key: key);
 
@@ -30,10 +29,10 @@ class HomeButtonPageState extends State<HomeButtonPage> {
           : _selectedIndex == 3
               ? InformationScreen()
               : _selectedIndex == 2
-                ? const SearchPlantsPage()
-                : _selectedIndex == 0
-                  ? HomePagePlants()
-                  : const Text('Error'),
+                  ? const SearchPlantsPage()
+                  : _selectedIndex == 0
+                      ? HomePagePlants()
+                      : const Text('Error'),
       bottomNavigationBar: Stack(
         children: <Widget>[
           Theme(
@@ -65,9 +64,7 @@ class HomeButtonPageState extends State<HomeButtonPage> {
                   _selectedIndex = index;
                 });
               },
-
-              unselectedItemColor: const Color.fromARGB(
-                  255, 245, 245, 245),
+              unselectedItemColor: const Color.fromARGB(255, 245, 245, 245),
               selectedItemColor: const Color.fromARGB(255, 182, 227, 0),
             ),
           ),

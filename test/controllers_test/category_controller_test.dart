@@ -7,9 +7,10 @@ import 'package:jardin_botanico/models/category_model.dart';
 void main() {
   group('test grupo Category controller', () {
     final firestore = FakeFirebaseFirestore();
-    FirebaseService.firestore = firestore; 
+    FirebaseService.firestore = firestore;
     final controller = CategoryController(firestore: firestore);
-    test('test que debería lanzar una excepción al leer una categoría que no existe',
+    test(
+        'test que debería lanzar una excepción al leer una categoría que no existe',
         () async {
       expect(() async => await controller.readCategory('id_inexistente'),
           throwsA(isA<Exception>()));
@@ -31,19 +32,18 @@ void main() {
         () async {
       await expectLater(controller.deleteCategory('id_inexistente'), completes);
     });
-    test('test que debería devolver una lista vacía cuando no hay categorías', () async {
+    test('test que debería devolver una lista vacía cuando no hay categorías',
+        () async {
       final categories = await controller.getCategories();
       expect(categories, isEmpty);
     });
     test('test de creacion createCategory', () async {
       final category =
-          Category(nombreCategoria: 'Test', id: ''); // Define la categoría
-      await controller.createCategory(category); // Crea la categoría
+          Category(nombreCategoria: 'Test', id: ''); 
+      await controller.createCategory(category); 
 
-      // Recupera todas las categorías
       final categories = await controller.getCategories();
 
-      // Verifica que la categoría fue creada correctamente
       expect(categories, isNotEmpty);
       expect(
           categories.any((c) => c.nombreCategoria == category.nombreCategoria),
@@ -52,52 +52,52 @@ void main() {
 
     test('test de  lectura de readCategory', () async {
       final category =
-          Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
+          Category(nombreCategoria: 'Test', id: 'id'); 
       await firestore
           .collection('categories')
           .doc('id')
-          .set(category.toJson()); // Añade la categoría a la base de datos
+          .set(category.toJson()); 
 
-      final result = await controller.readCategory('id'); // Lee la categoría
+      final result = await controller.readCategory('id'); 
       expect(result, equals(category));
     });
 
     test('test de actualizacion de updateCategory', () async {
       final category =
-          Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
+          Category(nombreCategoria: 'Test', id: 'id'); 
       await firestore
           .collection('categories')
           .doc('id')
-          .set(category.toJson()); // Añade la categoría a la base de datos
+          .set(category.toJson()); 
 
       final updatedCategory = Category(
           nombreCategoria: 'Test actualizado',
-          id: 'id'); // Define la categoría actualizada
+          id: 'id'); 
       await controller
-          .updateCategory(updatedCategory); // Actualiza la categoría
+          .updateCategory(updatedCategory); 
 
       final snapshot = await firestore
           .collection('categories')
           .doc('id')
-          .get(); // Obtiene la categoría actualizada
+          .get(); 
       final data = snapshot.data()!;
       expect(data, equals(updatedCategory.toJson()));
     });
 
     test('test de  borrar con deleteCategory', () async {
       final category =
-          Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
+          Category(nombreCategoria: 'Test', id: 'id'); 
       await firestore
           .collection('categories')
           .doc('id')
-          .set(category.toJson()); // Añade la categoría a la base de datos
+          .set(category.toJson()); 
 
-      await controller.deleteCategory('id'); // Borra la categoría
+      await controller.deleteCategory('id');
 
       final snapshot = await firestore
           .collection('categories')
           .doc('id')
-          .get(); // Intenta obtener la categoría borrada
+          .get(); 
       expect(snapshot.exists, isFalse);
     });
   });

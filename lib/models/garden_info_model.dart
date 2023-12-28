@@ -19,7 +19,7 @@ class GardenInfo {
     this.imageURLInfo,
   });
 
-  GardenInfo.fromMap(this.id,Map<String, dynamic> snapshot)
+  GardenInfo.fromMap(this.id, Map<String, dynamic> snapshot)
       : numero = snapshot['numero'] ?? '',
         direccionMaps = snapshot['direccionMaps'] ?? '',
         linkFacebook = snapshot['linkFacebook'] ?? '',
@@ -52,8 +52,8 @@ class GardenInfo {
         other.linkFacebook == linkFacebook &&
         other.linkInstagram == linkInstagram &&
         other.linkTikTok == linkTikTok &&
-        other.descripcion == descripcion&&
-        other.imageURLInfo == imageURLInfo; 
+        other.descripcion == descripcion &&
+        other.imageURLInfo == imageURLInfo;
   }
 
   @override
@@ -64,6 +64,6 @@ class GardenInfo {
       linkFacebook.hashCode ^
       linkInstagram.hashCode ^
       linkTikTok.hashCode ^
-      descripcion.hashCode^
+      descripcion.hashCode ^
       imageURLInfo.hashCode;
 }
