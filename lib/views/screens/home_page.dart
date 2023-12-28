@@ -7,7 +7,6 @@ class HomePageScreen extends StatefulWidget {
   @override
   HomePageScreenState createState() => HomePageScreenState();
 }
-
 class HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class HomePageScreenState extends State<HomePageScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  elevation: MaterialStateProperty.all(5), // Sombra
+                  elevation: MaterialStateProperty.all(5), 
                 ),
                 child: const Text(
                   'Empezar',

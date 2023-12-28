@@ -66,7 +66,6 @@ class PlantController {
 
   Future<String> generateQR(String plantId) async {
     final qrCode = QrPainter(
-      // ignore: deprecated_member_use
       data: plantId,
       version: QrVersions.auto,
       emptyColor: Colors.white,
@@ -77,7 +76,7 @@ class PlantController {
       dataModuleStyle: const QrDataModuleStyle(
         dataModuleShape: QrDataModuleShape.square, 
         color: Colors.black,
-      ), // Color de fondo blanco
+      ), 
     );
 
     final image = await qrCode.toImage(600);
@@ -100,8 +99,6 @@ class PlantController {
     }
     final DocumentSnapshot doc =
         await firestore.collection('plants').doc(codigo).get();
-
-    // Si el documento existe, entonces el código corresponde a una planta
     return doc.exists;
   }
   Future<String> obtenerNombreCientifico(String codigo) async {
@@ -144,7 +141,7 @@ Future<String> getQRUrl(String plantId) async {
         .collection('plants')
         .orderBy('fechaCreacion',
             descending:
-                true) // Asume que tienes un campo 'fechaCreacion' en tus documentos
+                true) 
         .limit(10)
         .get();
 

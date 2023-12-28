@@ -33,7 +33,7 @@ void main() {
       imageFile = MockFile();
     });
 
-    test('test de createPlant', () async {
+    test('test de creacion con createPlant', () async {
       final plant = PlantModel(
         nombreColoquial: ['nombreColoquial'],
         nombreCientifico: 'nombreCientifico',
@@ -73,7 +73,7 @@ void main() {
       // Agrega más expectativas para los otros campos
     });
 
-    test('test de getPlant', () async {
+    test('test de obtencion con getPlant', () async {
       final plant = PlantModel(
         id: 'id1',
         nombreColoquial: ['nombreColoquial'],
@@ -94,7 +94,7 @@ void main() {
       expect(snapshot.data(), equals(plant.toJson())); // Corregido 'result'
     });
 
-    test('test de updatePlant', () async {
+    test('test de actualizacion con updatePlant', () async {
       final plant = PlantModel(
         id: 'id1',
         nombreColoquial: ['nombreColoquial'],
@@ -138,7 +138,7 @@ void main() {
       expect(data, equals(updatedPlant.toJson()));
     });
 
-    test('test de deletePlant', () async {
+    test('test de borrar con deletePlant', () async {
       final plant = PlantModel(
         id: 'id1',
         nombreColoquial: ['nombreColoquial'], // Corregido a List<String>
@@ -165,7 +165,7 @@ void main() {
           .get(); // Intenta obtener la planta borrada
       expect(snapshot.exists, isFalse);
     });
-    test('test de uploadImage', () async {
+    test('test de subir imagen con uploadImage', () async {
       // Crea una instancia de MockFirebaseStorage
       final storage = MockFirebaseStorage();
 

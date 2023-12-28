@@ -28,7 +28,7 @@ void main() {
       expectLater(
           controller.updateGardenInfo(gardenInfo), throwsA(isA<Exception>()));
     });
-    test('test de que existe getGardenInfo', () async {
+    test('test de obtencion con getGardenInfo', () async {
       final gardenInfo = GardenInfo(
           id: 'DQ2iWNuSpjWdaQvJN0MW',
           numero: '1234567890',

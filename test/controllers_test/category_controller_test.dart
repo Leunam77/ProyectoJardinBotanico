@@ -7,8 +7,7 @@ import 'package:jardin_botanico/models/category_model.dart';
 void main() {
   group('test grupo Category controller', () {
     final firestore = FakeFirebaseFirestore();
-    FirebaseService.firestore =
-        firestore; // Inicializa firestore en FirebaseService
+    FirebaseService.firestore = firestore; 
     final controller = CategoryController(firestore: firestore);
     test('test que debería lanzar una excepción al leer una categoría que no existe',
         () async {
@@ -36,7 +35,7 @@ void main() {
       final categories = await controller.getCategories();
       expect(categories, isEmpty);
     });
-    test('test de createCategory', () async {
+    test('test de creacion createCategory', () async {
       final category =
           Category(nombreCategoria: 'Test', id: ''); // Define la categoría
       await controller.createCategory(category); // Crea la categoría
@@ -51,7 +50,7 @@ void main() {
           isTrue);
     });
 
-    test('test de readCategory', () async {
+    test('test de  lectura de readCategory', () async {
       final category =
           Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
       await firestore
@@ -63,7 +62,7 @@ void main() {
       expect(result, equals(category));
     });
 
-    test('test de updateCategory', () async {
+    test('test de actualizacion de updateCategory', () async {
       final category =
           Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
       await firestore
@@ -85,7 +84,7 @@ void main() {
       expect(data, equals(updatedCategory.toJson()));
     });
 
-    test('test de deleteCategory', () async {
+    test('test de  borrar con deleteCategory', () async {
       final category =
           Category(nombreCategoria: 'Test', id: 'id'); // Define la categoría
       await firestore

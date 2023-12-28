@@ -61,23 +61,13 @@ class HomeButtonPageState extends State<HomeButtonPage> {
               ],
               currentIndex: _selectedIndex,
               onTap: (index) {
-                // switch (index) {
-                //   case 1: // índice del ítem de la cámara
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => const QRViewExample()),
-                //     );
-                //     break;
-                //   // manejar otros índices si es necesario...
-                // }
                 setState(() {
                   _selectedIndex = index;
                 });
               },
 
               unselectedItemColor: const Color.fromARGB(
-                  255, 245, 245, 245), // color de los ítems no seleccionados
+                  255, 245, 245, 245),
               selectedItemColor: const Color.fromARGB(255, 182, 227, 0),
             ),
           ),

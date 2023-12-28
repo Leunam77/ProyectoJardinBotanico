@@ -19,16 +19,30 @@ void main() {
       expect(FirebaseService.firestore, equals(firestore));
       expect(FirebaseService.storage, equals(storage));
     });
-    test('test debería devolver la misma instancia para múltiples llamadas', () {
+    test('test debería devolver diferentes instancias para múltiples llamadas',
+        () {
       final firestore = FakeFirebaseFirestore();
       final storage = MockFirebaseStorage();
       FirebaseService.firestore = firestore;
       FirebaseService.storage = storage;
-      TestWidgetsFlutterBinding.ensureInitialized(); 
+      TestWidgetsFlutterBinding.ensureInitialized();
       final service1 = FirebaseService();
       final service2 = FirebaseService();
 
-      expect(service1, equals(service2));
+      expect(identical(service1, service2), isFalse);
+    });
+    test('set firestore debería cambiar la instancia de firestore', () {
+      final firestore = FakeFirebaseFirestore();
+      FirebaseService.firestore = firestore;
+
+      expect(FirebaseService.firestore, equals(firestore));
+    });
+
+    test('set storage debería cambiar la instancia de storage', () {
+      final storage = MockFirebaseStorage();
+      FirebaseService.storage = storage;
+
+      expect(FirebaseService.storage, equals(storage));
     });
   });
 }

@@ -82,13 +82,13 @@ class InformationScreen extends StatelessWidget {
                 const SizedBox(height: 50),
                 Card(
                   child: SizedBox(
-                    height: 250, // Define la altura de la tarjeta
+                    height: 250, 
                     width: double
-                        .infinity, // Hace que la tarjeta tenga el ancho máximo
+                        .infinity, 
                     child: Image(
                       image: NetworkImage(gardenInfo.imageURLInfo ?? ''),
                       fit: BoxFit
-                          .cover, // Hace que la imagen se adapte a la tarjeta
+                          .cover, 
                     ),
                   ),
                 ),
@@ -101,7 +101,7 @@ class InformationScreen extends StatelessWidget {
                       children: <Widget>[
                         IconButton(
                           icon: const Icon(FontAwesomeIcons
-                              .facebook), // Asegúrate de tener un ícono de Facebook
+                              .facebook), 
                           onPressed: () async {
                             final url = Uri.parse(gardenInfo.linkFacebook);
                             if (!await _launchUrl(url)) {
@@ -111,7 +111,7 @@ class InformationScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons
-                              .instagram), // Asegúrate de tener un ícono de Instagram
+                              .instagram), 
                           onPressed: () async {
                             final url = Uri.parse(gardenInfo.linkInstagram);
                             if (!await _launchUrl(url)) {
@@ -121,7 +121,7 @@ class InformationScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons
-                              .tiktok), // Asegúrate de tener un ícono de TikTok
+                              .tiktok), 
                           onPressed: () async {
                             final url = Uri.parse(gardenInfo.linkTikTok);
                             if (!await _launchUrl(url)) {
@@ -131,7 +131,7 @@ class InformationScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons
-                              .phone), // Asegúrate de tener un ícono de teléfono
+                              .phone),
                           onPressed: () async {
                             final url = Uri.parse('tel:${gardenInfo.numero}');
                             if (!await _launchUrl(url)) {
@@ -141,7 +141,7 @@ class InformationScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons
-                              .locationDot), // Asegúrate de tener un ícono de teléfono
+                              .locationDot), 
                           onPressed: () async {
                             final url = Uri.parse(gardenInfo.direccionMaps);
                             if (!await _launchUrl(url)) {

@@ -74,7 +74,7 @@ class CreatePlantFormState extends State<CreatePlantForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0), // Cambia la altura aquí
+        preferredSize: const Size.fromHeight(50.0), 
         child: AppBar(
           title: const Text(
             'Registrar planta',
@@ -193,9 +193,9 @@ class CreatePlantFormState extends State<CreatePlantForm> {
                       List<String> categoriesIds = selectedCategories
                           .map((category) => category.id)
                           .where(
-                              (id) => id != null) // Filtra cualquier valor null
+                              (id) => id != null) 
                           .map((id) =>
-                              id!) // Convierte la lista de String? a lista de String
+                              id!) 
                           .toList();
                       PlantModel newPlant = PlantModel(
                         nombreColoquial: nombreColoquial,

@@ -21,16 +21,13 @@ class PlantListScreenState extends State<PlantListScreen> {
   Future<void> downloadQR(PlantModel plant) async {
     Dio dio = Dio();
     try {
-      // Solicita el permiso de almacenamiento
       PermissionStatus status = await Permission.storage.request();
 
-      // Si el permiso no fue concedido, retorna
       if (!status.isGranted) {
         _logger.warning('Permiso de almacenamiento no concedido');
         return;
       }
 
-      // Permite al usuario seleccionar un directorio
       String? path = await FilePicker.platform.getDirectoryPath();
 
       if (path == null) {
@@ -38,10 +35,8 @@ class PlantListScreenState extends State<PlantListScreen> {
         return;
       }
 
-      // Crea la ruta del archivo
       String filePath = '$path/${plant.id}.png';
 
-      // Descarga la imagen y guárdala en el archivo
       if (plant.qrCodeUrl == null) {
         _logger.warning('plant.qrCodeUrl es null');
         return;

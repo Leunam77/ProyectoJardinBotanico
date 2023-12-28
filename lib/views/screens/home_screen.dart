@@ -24,7 +24,7 @@ class HomePagePlants extends StatelessWidget {
       ),
       body: FutureBuilder<List<PlantModel>>(
         future: plantController
-            .getLatestPlants(), // Asume que tienes una función getLatestPlants() en tu PlantController
+            .getLatestPlants(), 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -50,25 +50,24 @@ class HomePagePlants extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               plant.nombreColoquial[
-                                  0], // Asume que nombreColoquial es una lista de Strings
+                                  0], 
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   color: Colors
                                       .white,
-                                  fontSize: 16.0), // Esto cambiará el color del texto a blanco
+                                  fontSize: 16.0), 
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Image.network(
                               plant
-                                  .imageUrl!, // Asume que tienes una URL de imagen para la planta
+                                  .imageUrl!,
                               width: 100,
                               height: 100,
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // Navega a otra página
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

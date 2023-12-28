@@ -25,7 +25,6 @@ class _QRViewExampleState extends State<QRViewExample> {
   String plantName = 'No disponible';
   Timer? _timer;
   bool lastScanValida = true;
-  // In QRViewExampleState
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
@@ -46,7 +45,6 @@ class _QRViewExampleState extends State<QRViewExample> {
               showIcon = true;
               _timer?.cancel();
 
-              // Inicia un nuevo temporizador
               _timer = Timer(const Duration(seconds: 6), () {
                 setState(() {
                   showIcon = false;
@@ -68,7 +66,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0), // Cambia la altura aquí
+        preferredSize: const Size.fromHeight(50.0), 
         child: AppBar(
           title: const Text(
             'Escaner de código QR',
@@ -97,9 +95,8 @@ class _QRViewExampleState extends State<QRViewExample> {
           Expanded(
             flex: 1,
             child: Container(
-              // Agrega este widget
               color: const Color.fromARGB(
-                  255, 23, 57, 0), // Establece el color de fondo a verde
+                  255, 23, 57, 0), 
               child: Center(
                 child: (result != null)
                     ? SizedBox(
@@ -116,7 +113,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       ),
                                     );
                                   } else {
-                                    // Maneja el caso en que result.code es null
                                     _logger
                                         .warning('El código escaneado es null');
                                   }
@@ -129,7 +125,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       TextOverflow.ellipsis, // Añade esta línea
                                   style: const TextStyle(
                                       color: Colors
-                                          .white), // Establece el color del texto a blanco
+                                          .white), 
                                 ),
                               )
                             : Center(
@@ -139,7 +135,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       : "Código no válido",
                                   style: const TextStyle(
                                       color: Colors
-                                          .white), // Establece el color del texto a blanco
+                                          .white), 
                                 ),
                               ),
                       )
@@ -147,7 +143,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                         'Esperando escaner...',
                         style: TextStyle(
                             color: Colors
-                                .white), // Establece el color del texto a blanco
+                                .white), 
                       ),
               ),
             ),

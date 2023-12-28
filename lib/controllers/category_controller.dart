@@ -11,7 +11,7 @@ class CategoryController {
   Future<void> createCategory(Category category) async {
     DocumentReference docRef = await firestore.collection('categories').add({});
     Category newCategory = Category(
-      id: docRef.id, // Usa el ID generado automáticamente
+      id: docRef.id, 
       nombreCategoria: category.nombreCategoria,
     );
     await docRef.set(newCategory.toJson());
