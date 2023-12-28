@@ -39,7 +39,6 @@ class PlantScreenState extends State<PlantScreen> {
             style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
-          automaticallyImplyLeading: false,
         ),
       ),
       body: FutureBuilder<PlantModel>(
